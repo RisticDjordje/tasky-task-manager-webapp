@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import TaskForm from './TaskForm';
 
-
 const Container = styled.div`
     margin: 1rem;
     border: 2px solid #ddd;
