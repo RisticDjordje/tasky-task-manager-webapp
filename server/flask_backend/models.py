@@ -5,6 +5,7 @@ class List(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     tasks = db.relationship("Task", backref="list", lazy="dynamic")
+    order_index = db.Column(db.Integer, default=0)
 
 
 class Task(db.Model):

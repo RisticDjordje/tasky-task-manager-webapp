@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import '../style/TaskForm.css';
 
-function TaskForm() {
+function TaskForm({onUpdateTasks}) {
+  console.log("Column props:", {onUpdateTasks});
+
   const [taskName, setTaskName] = useState('');
 
   const handleTaskNameChange = (e) => {
@@ -9,13 +11,16 @@ function TaskForm() {
   };
 
   const addTask = () => {
+
     // Create a JSON object with the task data
     const taskData = {
       name: taskName,
+      list_id: '1',
+      is_completed: false,
     };
 
     // Send a POST request to the Flask endpoint
-    fetch('http://127.0.0.1:5000/tasks', {
+    fetch('http://127.0.0.1:3001/add_task', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -31,6 +36,7 @@ function TaskForm() {
       .then((data) => {
         // Handle a successful response
         console.log(data.message);
+        onUpdateTasks();
       })
       .catch((error) => {
         // Handle any errors

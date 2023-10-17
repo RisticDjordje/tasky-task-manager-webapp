@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import RecursiveTask from './Task';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
-import TaskForm from './TaskForm'; // Import the TaskForm component
+import { Draggable, Droppable } from 'react-beautiful-dnd';
+import TaskForm from './TaskForm';
+
 
 const Container = styled.div`
     margin: 1rem;
@@ -12,9 +12,9 @@ const Container = styled.div`
     height: 700px;
     display: flex;
     flex-direction: column;
-    background-color: #f4f7fa; // Softer background color
+    background-color: #f4f7fa;
     overflow-y: auto;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1); // subtle shadow for depth
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h3`
@@ -31,45 +31,79 @@ const TaskList = styled.div`
     flex-grow: 1;
 `;
 
-function Column({column, tasks, index, ...props}) {
-    
-
-    const [inputValue, setInputValue] = useState('');
+const Column = ({ column, index, onUpdateTasks, ...props }) => {
+    const [inputValue, setInputValue] = React.useState(''); // Initialize the state
 
     return (
-        <Draggable draggableId={column.id} index={index}>
+        <Draggable draggableId={column.id.toString()} index={index}>
             {(provided) => (
                 <Container ref={provided.innerRef} {...provided.draggableProps}>
-                    <Title {...provided.dragHandleProps}>{column.title}</Title>
-                    <Droppable droppableId={column.id} type='task'>
+                    <Title {...provided.dragHandleProps}>{column.name}</Title>
+                    <Droppable droppableId={column.id.toString()} type='task'>
                         {(provided, snapshot) => (
                             <TaskList
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}
                                 isdraggingover={snapshot.isDraggingOver}
                             >
-                                {tasks.map((task, index) =>
-                                    <RecursiveTask
-                                        key={task.id}
-                                        task={task}
-                                        index={index}
-                                    />
-                                )}
-
+                                {/* Placeholder: You might want to render tasks here like you did in the second snippet */}
                                 {provided.placeholder}
                             </TaskList>
                         )}
                     </Droppable>
 
-                    {column.title === 'To-Do' && (
+                    {column.id === 1 && (
                         <div>
-                            <TaskForm inputValue={inputValue} setInputValue={setInputValue} />
+                            <TaskForm inputValue={inputValue} setInputValue={setInputValue} onUpdateTasks={onUpdateTasks} />
                         </div>
                     )}
                 </Container>
             )}
         </Draggable>
     );
-}
+};
 
 export default Column;
+// function Column({ column, tasks, index, onUpdateTasks, ...props }) {
+//     console.log("Column props:", {onUpdateTasks});
+
+
+//     const [inputValue, setInputValue] = useState('');
+
+//     return (
+//         <Draggable draggableId={column.id} index={index}>
+//             {(provided) => (
+//                 <Container ref={provided.innerRef} {...provided.draggableProps}>
+//                     <Title {...provided.dragHandleProps}>{column.title}</Title>
+//                     <Droppable droppableId={column.id} type='task'>
+//                         {(provided, snapshot) => (
+//                             <TaskList
+//                                 ref={provided.innerRef}
+//                                 {...provided.droppableProps}
+//                                 isdraggingover={snapshot.isDraggingOver}
+//                             >
+//                                 {tasks.map((task, index) =>
+//                                     <RecursiveTask
+//                                         key={task.id}
+//                                         task={task}
+//                                         index={index}
+//                                     />
+//                                 )}
+
+//                                 {provided.placeholder}
+//                             </TaskList>
+//                         )}
+//                     </Droppable>
+
+//                     {column.title === 'To-Do' && (
+//                         <div>
+//                             <TaskForm inputValue={inputValue} setInputValue={setInputValue} onUpdateTasks={onUpdateTasks} />
+//                         </div>
+//                     )}
+//                 </Container>
+//             )}
+//         </Draggable>
+//     );
+// }
+
+// export default Column;

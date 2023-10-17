@@ -1,37 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import Column from './Column';
 import '../style/DraggableBoard.css';
 
-
 const DraggableBoard = ({ data, setData }) => {
 
-    useEffect(() => {
-        const fetchTasks = async () => {
-            try {
-                const response = await fetch('http://127.0.0.1:5000/tasks');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const tasks = await response.json();
-                console.log(tasks)
-                setData(prevData => ({
-                    ...prevData,
-                    tasks: {
-                        ...prevData.tasks,
-                        ...tasks.reduce((acc, task) => {
-                            acc[task.id] = task;
-                            return acc;
-                        }, {})
-                    }
-                }));
-            } catch (error) {
-                console.error('Error fetching tasks:', error.message);
+    const fetchTasks = useCallback(async () => {
+        try {
+            const response = await fetch('http://127.0.0.1:3001/tasks');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        };
+            const tasks = await response.json();
+            console.log('tasks', tasks);
 
-        fetchTasks();
+            setData(prevData => ({
+                ...prevData,
+                tasks: {
+                    ...prevData.tasks,
+                    ...tasks.reduce((acc, task) => {
+                        acc[task.id.toString()] = task;
+                        return acc;
+                    }, {})
+                }
+            }));
+        } catch (error) {
+            console.error('Error fetching tasks:', error.message);
+        }
     }, [setData]);
+
+    useEffect(() => {
+        fetchTasks();
+    }, [fetchTasks]);
 
     const onDragEnd = (result) => {
         console.log(result); // Log the result object
@@ -110,24 +110,24 @@ const DraggableBoard = ({ data, setData }) => {
         setData(newState);
     };
 
-return (
+    return (
         <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId='all-columns' direction='horizontal' type='column'>
                 {(provided) => (
                     <div className="container" {...provided.droppableProps} ref={provided.innerRef}>
                         {data.columnOrder.map((id, index) => {
-                            const column = data.columns[id];
-                            const tasks = column.taskIds.map((taskId) => data.tasks[taskId]);
+                            const column = data.lists[id];
+                            // const tasks = column.taskIds.map(taskId => data.tasks[taskId]);
                             return (
                                 <Column
                                     key={column.id}
                                     column={column}
-                                    tasks={tasks}
+                                    // tasks={tasks} // Passing tasks to Column
                                     index={index}
                                 />
                             );
                         })}
-                        {provided.placeholder}
+                        {provided.placeholder} {/* Placeholder for the columns */}
                     </div>
                 )}
             </Droppable>
