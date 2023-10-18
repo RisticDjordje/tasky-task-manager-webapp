@@ -41,9 +41,6 @@ const TaskList = styled.div`
 `;
 
 const Column = ({ id, name, tasks, index, ...props }) => {
-    console.log('Column id', id)
-    console.log('Column name', name)
-    console.log('Column index', index)
   return (
     <>
     <h1>{id}</h1>
