@@ -1,22 +1,22 @@
-import React from 'react';
-import { Draggable } from 'react-beautiful-dnd';
-import '../style/Task.css';  // Import the new CSS file
+import React from "react";
+import { Draggable } from "react-beautiful-dnd";
+import "../style/Task.css";
 
-function Task(props) {
-    return (
-        <Draggable draggableId={props.task.id} index={props.index}>
-            {(provided, snapshot) => (
-                <div
-                    className={`container ${snapshot.isDragging ? 'dragging' : ''}`}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    ref={provided.innerRef}
-                >
-                    {props.task.content}
-                </div>
-            )}
-        </Draggable>
-    );
+function Task({ task_id, index, name }) {
+  return (
+    <Draggable draggableId={task_id.toString()} index={index}>
+      {(provided, snapshot) => (
+        <div
+          className={`container ${snapshot.isDragging ? "dragging" : ""}`}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+        >
+          {name}
+        </div>
+      )}
+    </Draggable>
+  );
 }
 
 export default Task;

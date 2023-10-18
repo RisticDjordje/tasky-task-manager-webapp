@@ -2,10 +2,10 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class List(db.Model):
+class Lists(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    tasks = db.relationship("Task", backref="list", lazy=True)
+    tasks = db.relationship("Tasks", backref="lists", lazy=True)
     order_index = db.Column(db.Integer, nullable=False)
 
     def to_dict(self):
@@ -29,16 +29,16 @@ class List(db.Model):
     def ensure_default_lists_exist():
         try:
             print("Ensuring default lists exist...")
-            existing_todo_list = List.query.filter_by(name="To-Do").first()
-            existing_completed_list = List.query.filter_by(name="Completed").first()
+            existing_todo_list = Lists.query.filter_by(name="To-Do").first()
+            existing_completed_list = Lists.query.filter_by(name="Completed").first()
             if not existing_todo_list:
-                default_todo_list = List(name="To-Do", order_index=0)
+                default_todo_list = Lists(name="To-Do", order_index=0)
                 db.session.add(default_todo_list)
                 print("Added 'To-Do' list to the database.")
             else:
                 print("'To-Do' list already exists in the database.")
             if not existing_completed_list:
-                default_completed_list = List(name="Completed", order_index=1)
+                default_completed_list = Lists(name="Completed", order_index=1)
                 db.session.add(default_completed_list)
                 print("Added 'Completed' list to the database.")
             else:
@@ -48,21 +48,22 @@ class List(db.Model):
             print(f"Error ensuring default lists exist: {e}")
 
 
-class Task(db.Model):
+class Tasks(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    list_id = db.Column(db.Integer, db.ForeignKey("list.id"), nullable=False)
+    list_id = db.Column(db.Integer, db.ForeignKey("lists.id"), nullable=False)
     task_depth = db.Column(db.Integer, nullable=False)
-    parent_id = db.Column(db.Integer, db.ForeignKey("task.id"))
+    parent_id = db.Column(db.Integer, db.ForeignKey("tasks.id"))
+    is_completed = db.Column(db.Boolean, nullable=False, default=False)
     subtasks = db.relationship(
-        "Task",
+        "Tasks",
         backref=db.backref("parent", remote_side=[id]),
         lazy=True,
         cascade="all, delete-orphan",
     )
 
     def __repr__(self):
-        return f"Task('{self.name}')"
+        return f"Task('{self.name}, list_id: {self.list_id}, task_depth: {self.task_depth}, parent_id: {self.parent_id}, is_completed: {self.is_completed}, subtasks: {self.subtasks}')"
 
     def to_dict(self):
         return {
@@ -70,11 +71,7 @@ class Task(db.Model):
             "name": self.name,
             "list_id": self.list_id,
             "subtasks": [subtask.to_dict() for subtask in self.subtasks],
-            "task_depth": self.task_depth
+            "task_depth": self.task_depth,
+            "parent_id": self.parent_id,
+            "is_completed": self.is_completed,
         }
-
-    def calculate_depth(self):
-        if self.parent_id is None:
-            return 0
-        else:
-            return 1 + Task.query.get(self.parent_id).calculate_depth()

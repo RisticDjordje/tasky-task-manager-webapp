@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import '../style/TaskForm.css';
+import { useApi } from "../contexts/ApiProvider";
 
-function TaskForm({onUpdateTasks}) {
+function TaskForm() {
 
   const [taskName, setTaskName] = useState('');
 
@@ -9,18 +10,12 @@ function TaskForm({onUpdateTasks}) {
     setTaskName(e.target.value);
   };
 
-  const addTask = () => {
+  const api_provider = useApi();
 
-    // Create a JSON object with the task data
-    const taskData = {
-      name: taskName,
-      list_id: '1',
-      is_completed: false,
-      
-    };
-
+  async function addTask() {
+    const new_task = await api_provider.post('/add_task', {name: taskName});
+    console.log(new_task);
   }
-
 
   return (
     <div>
@@ -30,7 +25,7 @@ function TaskForm({onUpdateTasks}) {
         value={taskName}
         onChange={handleTaskNameChange}
       />
-      <button >Add Task</button>
+      <button onClick={addTask}>Add Task</button>
     </div>
   );
 }

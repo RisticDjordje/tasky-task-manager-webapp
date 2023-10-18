@@ -16,7 +16,6 @@ const App = () => {
   return (
     <>
       <ApiProvider>
-          <AddList onUpdateLists={setData} />
           <DraggableBoard data={data} setData={setData} />
       </ApiProvider>
     </>

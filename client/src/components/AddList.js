@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../style/AddList.css'; // You might want to style this component similarly to your TaskForm
 import { useApi } from "../contexts/ApiProvider";
 
-function AddList() {
+function AddList({onUpdateLists}) {
 
   const [listName, setListName] = useState("");
 
@@ -14,6 +14,7 @@ function AddList() {
 
   async function addList() {
     const list = await api_provider.post('/add_list', {name: listName});
+    onUpdateLists(list);
     console.log(list);
   }
 
