@@ -1,54 +1,62 @@
 import React from "react";
-import styled from "styled-components";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import TaskForm from "./TaskForm";
-
-const Task = styled.div`
-  padding: 1rem;
-  margin-bottom: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-`;
-
-const Container = styled.div`
-    margin: 1rem;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    width: 400px;
-    height: 700px;
-    display: flex;
-    flex-direction: column;
-    background-color: #f4f7fa;
-    overflow-y: auto;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-`;
-
-const Title = styled.h3`
-    padding: 0 1rem;
-    margin: 1rem 0;
-    color: black;
-    border-radius: 4px;
-`;
+import TaskForm from "./AddTask";
+import { styled } from "@mui/material/styles";
+import DeleteList from "./DeleteList";
+import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button } from '@mui/material';
 
 
-const TaskList = styled.div`
-    padding: 1rem;
-    background-color: ${props => (props.isdraggingover ? '#e0e7ec' : 'transparent')};
-    min-height: 100px;
-    flex-grow: 1;
-`;
+const Task = styled("div")({
+  padding: "1rem",
+  marginBottom: "0.5rem",
+  border: "1px solid #ccc",
+  borderRadius: "5px",
+  backgroundColor: "#fff",
+  boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
+});
+
+const Container = styled("div")({
+  margin: "1rem",
+  border: "2px solid #ddd",
+  borderRadius: "5px",
+  width: "60vw",
+  height: "70vh",
+  display: "flex",
+  flexDirection: "column",
+  backgroundColor: "#f4f7fa",
+  overflowY: "auto",
+  boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
+  display: "flex",
+  flexDirection: "column",
+  minWidth: "300px",
+});
+
+const Title = styled("h3")({
+  display: "flex", // Add this to make it a flex container
+  justifyContent: "space-between", // Distribute space between title and button
+  alignItems: "center", // Align title and button vertically
+  padding: "0 1rem",
+  margin: "1rem 0",
+  color: "black",
+  borderRadius: "4px",
+});
+
+const TaskList = styled("div")(({ isdraggingover }) => ({
+  padding: "1rem",
+  backgroundColor: isdraggingover ? "#e0e7ec" : "transparent",
+  minHeight: "100px",
+  flexGrow: 1,
+}));
 
 const Column = ({ id, name, tasks, index, ...props }) => {
   return (
-    <>
-    <h1>{id}</h1>
-    <h2>{index}</h2>
     <Draggable draggableId={id.toString()} index={index}>
       {(provided) => (
         <Container ref={provided.innerRef} {...provided.draggableProps}>
-          <Title {...provided.dragHandleProps}>{name}</Title>
+          <Title {...provided.dragHandleProps}>
+            {name}
+            <DeleteList list_id={id} />
+          </Title>
           {/* <Droppable droppableId={id.toString()} type="task">
             {(provided, snapshot) => (
               <TaskList
@@ -76,7 +84,7 @@ const Column = ({ id, name, tasks, index, ...props }) => {
           )}
         </Container>
       )}
-    </Draggable></>
+    </Draggable>
   );
 };
 

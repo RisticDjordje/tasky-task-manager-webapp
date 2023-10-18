@@ -81,6 +81,25 @@ def update_order():
         print("Error updating order indexes of lists in the database: ", e)
         return jsonify({"message": f"{failure_message}. error is {e}"}), 400
     
+# delete a list from the database
+@bp_list.route("/delete_list/<list_id>", methods=["DELETE"])
+def delete_list(list_id):
+    success_message = f"Successfully deleted list with id {list_id}."
+    failure_message = f"Failed to delete list with id {list_id}."
+    success_status = 200
 
-
-    
+    try:
+        list_to_delete = Lists.query.get(list_id)
+        
+        # Check if list exists
+        if not list_to_delete:
+            return jsonify({"message": f"No list found with id {list_id}."}), 404
+        
+        db.session.delete(list_to_delete)
+        db.session.commit()
+        
+        print(f"User deleted list with id {list_id}.")
+        return jsonify({"message": success_message}), success_status
+    except Exception as e:
+        print(f"Error deleting list with id {list_id}: ", e)
+        return jsonify({"message": f"{failure_message}. Error is {e}"}), 400

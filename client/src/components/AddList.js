@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import '../style/AddList.css'; // You might want to style this component similarly to your TaskForm
 import { useApi } from "../contexts/ApiProvider";
+import { TextField, Button, Box } from '@mui/material';
 
-function AddList({onUpdateLists}) {
-
+function AddList({ onUpdateLists }) {
   const [listName, setListName] = useState("");
-
   const handleListNameChange = (e) => {
     setListName(e.target.value);
   }
@@ -13,21 +11,37 @@ function AddList({onUpdateLists}) {
   const api_provider = useApi();
 
   async function addList() {
-    const list = await api_provider.post('/add_list', {name: listName});
+    const list = await api_provider.post('/add_list', { name: listName });
     onUpdateLists(list);
     console.log(list);
+    setListName("");
   }
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="List name"
+    <Box
+      display="flex"
+      flexDirection="row"
+      justifyContent="center"
+      alignItems="center"
+      gap={2}
+      p={2} // Only set padding for inner content
+      bgcolor="#f4f7fa"
+      boxShadow="0px 2px 6px rgba(0, 0, 0, 0.1)"
+      borderRadius="5px"
+      maxWidth="600px"
+      margin="0 auto"
+    >
+      <TextField
+        variant="outlined"
+        label="List name"
         value={listName}
         onChange={handleListNameChange}
+        fullWidth
       />
-      <button onClick={addList}>Add List</button>
-    </div>
+      <Button variant="contained" color="primary" onClick={addList}>
+        Add List
+      </Button>
+    </Box>
   );
 }
 

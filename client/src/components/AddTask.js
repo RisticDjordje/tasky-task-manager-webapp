@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import '../style/TaskForm.css';
 import { useApi } from "../contexts/ApiProvider";
+import { TextField, Button } from '@mui/material';
 
 function TaskForm() {
 
@@ -15,19 +15,22 @@ function TaskForm() {
   async function addTask() {
     const new_task = await api_provider.post('/add_task', {name: taskName});
     console.log(new_task);
+    setTaskName('');
   }
 
   return (
     <div>
-      <input
-        type="text"
+      <TextField
+        variant="outlined"
         placeholder="Task name"
         value={taskName}
         onChange={handleTaskNameChange}
       />
-      <button onClick={addTask}>Add Task</button>
+      <Button variant="contained" color="primary" onClick={addTask}>
+        Add Task
+      </Button>
     </div>
   );
 }
 
-export default TaskForm;
+export default TaskForm;  

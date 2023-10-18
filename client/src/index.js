@@ -1,11 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './style/index.css';
 import App from './App';
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+
+const theme = createTheme({
+  typography: {
+    fontFamily: 'Inter, sans-serif',
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        '@global': {
+          '@import': "url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap')",
+          'html, body': {
+            height: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+        },
+      },
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

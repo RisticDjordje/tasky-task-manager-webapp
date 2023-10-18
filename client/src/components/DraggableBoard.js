@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import Column from "./Column";
-import "../style/DraggableBoard.css";
 import { useApi } from "../contexts/ApiProvider";
 import AddList from "./AddList";
+import { styled } from '@mui/material/styles';
+
+const Container = styled('div')({
+  display: 'flex',
+  overflowX: 'flex',  
+  alignItems: 'center',
+  width: '100%', // take the full viewport width
+  height: '100vh', // take the full viewport height
+});
 
 const DraggableBoard = () => {
   const api_provider = useApi();
@@ -34,8 +42,6 @@ const DraggableBoard = () => {
         for (const order_index of Object.keys(columnOrderDict)) {
           columnOrder.push(columnOrderDict[order_index]);
         }
-        console.log('columnOrder', columnOrder)
-        console.log('columns', columns)
 
         setData({
           columns: columns,
@@ -108,7 +114,6 @@ const DraggableBoard = () => {
 
   return (
     <>
-    <h1>{data.columnOrder}</h1>
       <AddList onUpdateLists={fetchLists} />
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable
@@ -117,8 +122,7 @@ const DraggableBoard = () => {
           type="column"
         >
           {(provided) => (
-            <div
-              className="container"
+            <Container
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -127,7 +131,7 @@ const DraggableBoard = () => {
                 return <Column key={column.id} id={column.id} name={column.name} tasks={column.tasks} index={index} />;
               })}
               {provided.placeholder}
-            </div>
+            </Container>
           )}
         </Droppable>
       </DragDropContext> 
@@ -136,3 +140,7 @@ const DraggableBoard = () => {
 };
 
 export default DraggableBoard;
+
+
+
+
