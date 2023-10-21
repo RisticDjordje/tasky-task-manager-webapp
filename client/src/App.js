@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import DraggableBoard from "./components/DraggableBoard";
 import ApiProvider from "./contexts/ApiProvider";
 import { styled } from '@mui/material/styles';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar'; // Assuming you have a Navbar component
+import Login from './components/Login'; // Assuming you have a Login component
+import Register from './components/Register'; // Assuming you have a Register component
+import HomePageTitle from './components/Title'; // Assuming you have a Title component
 
 const StyledApp = styled('div')({
   textAlign: 'center',
@@ -44,9 +49,17 @@ const App = () => {
 
   return (
     <ApiProvider>
-      <StyledApp>
-        <DraggableBoard data={data} setData={setData} />
-      </StyledApp>
+      <Router>
+        <StyledApp>
+          <Navbar />
+          <HomePageTitle />
+          <Routes>
+            <Route path="/" element={<DraggableBoard data={data} setData={setData} />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </StyledApp>
+      </Router>
     </ApiProvider>
   );
 };

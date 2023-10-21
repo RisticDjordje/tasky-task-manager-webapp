@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useApi } from "../contexts/ApiProvider";
 import { TextField, Button } from '@mui/material';
 
-function TaskForm() {
+function AddTaskForm({ onUpdateLists, listID }) {
 
   const [taskName, setTaskName] = useState('');
 
@@ -13,9 +13,10 @@ function TaskForm() {
   const api_provider = useApi();
 
   async function addTask() {
-    const new_task = await api_provider.post('/add_task', {name: taskName});
+    const new_task = await api_provider.post('/add_task', {name: taskName, id: listID});
     console.log(new_task);
     setTaskName('');
+    onUpdateLists();
   }
 
   return (
@@ -33,4 +34,4 @@ function TaskForm() {
   );
 }
 
-export default TaskForm;  
+export default AddTaskForm;  

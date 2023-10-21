@@ -56,4 +56,8 @@ export default class TodoApiClient {
   async delete(url, options) {
     return this.request({method: 'DELETE', url, ...options});
   }
+
+  async patch(url, body, options) {
+    return this.request({method: 'PATCH', url, body, ...options});
+  }
 }

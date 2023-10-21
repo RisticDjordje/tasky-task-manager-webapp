@@ -11,8 +11,7 @@ def get_all_lists():
     success_status = 200
     try:
         lists = Lists.query.all()
-        print("User retrieved all lists from the database: ", lists)
-
+        print("User retrieved all lists from the database")
         return (
             jsonify(
                 {
@@ -37,8 +36,7 @@ def add_list():
         new_list = Lists(name=list_data["name"], order_index=len(Lists.query.all()), tasks=[])
         db.session.add(new_list)
         db.session.commit()
-        print("User added a new list to the database: ", new_list)
-        print("Current lists in the database: ", Lists.query.all())
+        print("User added a new list to the database")
         return jsonify({"message": success_message}), success_status
     except Exception as e:
         print("Error adding list to the database: ", e)
@@ -65,7 +63,7 @@ def update_order():
     success_message = "Successfully updated order indexes of lists in the database."
     failure_message = "Failed to update order indexes of lists in the database."
     success_status = 200
-    print("User is updating order indexes of lists in the database: ", request.get_json())
+    print("User is updating order indexes of lists in the database")
     try:
         list_data = request.get_json()["lists"] # format: [{"id": 1, "order_index": 0}, {"id": 2, "order_index": 1}]
         for list in list_data:
@@ -75,7 +73,7 @@ def update_order():
             list_to_update = Lists.query.get(list_id)
             list_to_update.order_index = list_order_index
             db.session.commit()
-        print("User updated order indexes of lists in the database: ", Lists.query.all())
+        print("User updated order indexes of lists in the database ")
         return jsonify({"message": success_message}), success_status
     except Exception as e:
         print("Error updating order indexes of lists in the database: ", e)
@@ -103,3 +101,24 @@ def delete_list(list_id):
     except Exception as e:
         print(f"Error deleting list with id {list_id}: ", e)
         return jsonify({"message": f"{failure_message}. Error is {e}"}), 400
+
+
+# update list name in the database
+@bp_list.route("/update_list_name", methods=["PATCH"])
+def update_list_name():
+    success_message = "Successfully updated list name in the database."
+    failure_message = "Failed to update list name in the database."
+    success_status = 200
+    print("User is updating list name in the database")
+    try:
+        list_data = request.get_json()
+        list_id = list_data["id"]
+        list_name = list_data["name"]
+        list_to_update = Lists.query.get(list_id)
+        list_to_update.name = list_name
+        db.session.commit()
+        print("User updated list name in the database: ", Lists.query.all())
+        return jsonify({"message": success_message}), success_status
+    except Exception as e:
+        print("Error updating list name in the database: ", e)
+        return jsonify({"message": f"{failure_message}. error is {e}"}), 400

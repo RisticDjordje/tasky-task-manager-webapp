@@ -7,10 +7,10 @@ import { styled } from '@mui/material/styles';
 
 const Container = styled('div')({
   display: 'flex',
-  overflowX: 'flex',  
-  alignItems: 'center',
-  width: '100%', // take the full viewport width
-  height: '100vh', // take the full viewport height
+  overflowX: 'auto',  // changed from 'flex' to 'auto'
+  alignItems: 'flex-start',  // changed from 'center' to 'flex-start'
+  width: '100%',
+  height: '100vh',
 });
 
 const DraggableBoard = () => {
@@ -110,6 +110,7 @@ const DraggableBoard = () => {
       }
     }
     return;
+
   };
 
   return (
@@ -128,7 +129,7 @@ const DraggableBoard = () => {
             >
               {data.columnOrder.map((id, index) => {
                 const column = data.columns[id];
-                return <Column key={column.id} id={column.id} name={column.name} tasks={column.tasks} index={index} />;
+                return <Column key={column.id} id={column.id} name={column.name} tasks={column.tasks} index={index} onUpdateLists={fetchLists}/>;
               })}
               {provided.placeholder}
             </Container>
