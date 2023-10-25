@@ -1,10 +1,10 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
-import AddTaskForm from "./AddTask";
+import AddTaskForm from "../tasks/AddTask";
 import { styled } from "@mui/material/styles";
 import DeleteList from "./DeleteList";
 import EditList from "./EditList";
-import TaskAccordion from './TaskAccordion.js';
+import TaskAccordion from '../tasks/TaskAccordion.js';
 
 const Container = styled("div")({
   margin: "2.5rem 1rem",
@@ -36,7 +36,7 @@ const ButtonContainer = styled("div")({
   gap: "0.5rem",
 });
 
-const Column = ({ id, name, tasks, index, onUpdateLists }) => {
+const List = ({ id, name, tasks, index, onUpdateLists }) => {
   return (
     <Draggable draggableId={id.toString()} index={index}>
       {(provided) => (
@@ -66,4 +66,4 @@ const Column = ({ id, name, tasks, index, onUpdateLists }) => {
   );
 };
 
-export default Column;
+export default List;

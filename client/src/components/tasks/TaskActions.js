@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, TextField, Checkbox } from "@mui/material";
 import { useState } from "react";
-import { useApi } from "../contexts/ApiProvider";
+import { useApi } from "../../contexts/ApiProvider";
 import { Typography } from "@mui/material";
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
 
@@ -30,11 +30,19 @@ const TaskActions = ({ task, onUpdateLists }) => {
 
 
   const handleEditTask = async () => {
+    // Trim newTaskName to remove leading/trailing whitespace and check if it's empty
+    if (newTaskName.trim().length === 0) {
+      console.warn("Task name cannot be empty.");
+      setNewTaskName(task.name); // Reset to original name
+      return; // Stop the function here
+    }
+  
     try {
       await api.patch(`/tasks/${task.id}/update`, {
-        name: newTaskName,
+        name: newTaskName.trim(),
         list_id: task.list_id,
         parent_id: task.parent_id,
+        is_completed: task.is_completed,
       });
       setIsEditing(false);
       onUpdateLists();
@@ -42,6 +50,7 @@ const TaskActions = ({ task, onUpdateLists }) => {
       console.error("Failed to edit task:", error);
     }
   };
+  
 
   const handleDeleteTask = async () => {
     try {

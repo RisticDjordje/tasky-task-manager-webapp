@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import { useApi } from "../contexts/ApiProvider";
+import { useApi } from "../../contexts/ApiProvider";
 
 const EditList = ({ columnId, initialName, onUpdateLists }) => {
   const [isEditDialogOpen, setEditDialogOpen] = useState(false);

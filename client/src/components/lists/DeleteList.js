@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useApi } from "../contexts/ApiProvider";
+import { useApi } from "../../contexts/ApiProvider";
 
 const DeleteList = ({list_id, onUpdateLists}) => {
     const api_provider = useApi();

@@ -24,12 +24,13 @@ const StyledAccordionDetails = styled(AccordionDetails)({
   padding: "0.5rem",
 });
 
-const TaskAccordion = ({ task, onUpdateLists }) => {
-  const hasSubtasks = task.subtasks && task.subtasks.length > 0;
+const TaskAccordion = ({ task, onUpdateLists, dragHandleProps }) => {
+    const hasSubtasks = task.subtasks && task.subtasks.length > 0;
 
   return (
     <StyledAccordion>
       <StyledAccordionSummary
+      
         expandIcon={hasSubtasks ? <ExpandMoreIcon /> : null}
         aria-controls="panel-content"
         id="panel-header"

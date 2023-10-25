@@ -98,7 +98,7 @@ def update_task(task_id):
         task.parent_id = task_data["parent_id"]
         # if task_data["is_completed"] is different from the value of task.is_completed in the database with id task_id
         # then update the value of task.is_completed to task_data["is_completed"] for each of subtaks of task with id task_id and all its subtasks recursively
-        # there can be an arbitrary level of subtasks so use recursion 
+        # there can be an arbitrary level of subtasks so use recursion
         if task_data["is_completed"] != task.is_completed:
             task.is_completed = task_data["is_completed"]
             # update the value of is_completed for each of the subtasks of task with id task_id
@@ -111,6 +111,8 @@ def update_task(task_id):
                 for subtask in subtasks:
                     update_subtasks_is_completed(subtask.id)
             update_subtasks_is_completed(task_id)
+        else: 
+            task.is_completed = task_data["is_completed"]
 
         db.session.commit()
         print("User updated task with id {task_id} in the database: ", task)
