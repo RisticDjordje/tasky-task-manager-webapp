@@ -87,7 +87,7 @@ def update_task(task_id):
     failure_message = f"Failed to update task with id {task_id} in the database."
     success_status = 200
     print(
-        "User is updating task with id {task_id} in the database: ", request.get_json()
+        "User is updating task with id {task_id} in the database: "
     )
 
     try:
@@ -96,7 +96,22 @@ def update_task(task_id):
         task.name = task_data["name"]
         task.list_id = task_data["list_id"]
         task.parent_id = task_data["parent_id"]
-        task.is_completed = task_data["is_completed"]
+        # if task_data["is_completed"] is different from the value of task.is_completed in the database with id task_id
+        # then update the value of task.is_completed to task_data["is_completed"] for each of subtaks of task with id task_id and all its subtasks recursively
+        # there can be an arbitrary level of subtasks so use recursion 
+        if task_data["is_completed"] != task.is_completed:
+            task.is_completed = task_data["is_completed"]
+            # update the value of is_completed for each of the subtasks of task with id task_id
+            # there can be an arbitrary level of subtasks so use recursion 
+            def update_subtasks_is_completed(task_id):
+                task = Tasks.query.get(task_id)
+                task.is_completed = task_data["is_completed"]
+                db.session.commit()
+                subtasks = Tasks.query.filter_by(parent_id=task_id).all()
+                for subtask in subtasks:
+                    update_subtasks_is_completed(subtask.id)
+            update_subtasks_is_completed(task_id)
+
         db.session.commit()
         print("User updated task with id {task_id} in the database: ", task)
         return jsonify({"message": success_message}), success_status
@@ -180,3 +195,5 @@ def move_task(task_id):
     except Exception as e:
         print("Error moving task with id {task_id} in the database: ", e)
         return jsonify({"message": f"{failure_message}. error is {e}"}), 400
+
+
