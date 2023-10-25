@@ -93,6 +93,12 @@ def delete_list(list_id):
         if not list_to_delete:
             return jsonify({"message": f"No list found with id {list_id}."}), 404
         
+        # if list has tasks, delete them first (cascade)
+        if list_to_delete.tasks:
+            for task in list_to_delete.tasks:
+                db.session.delete(task)
+
+        
         db.session.delete(list_to_delete)
         db.session.commit()
         
