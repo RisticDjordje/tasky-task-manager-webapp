@@ -1,11 +1,13 @@
 from flask import jsonify, request, Blueprint
 from models import Tasks, db
+from flask_login import login_required
 
 bp_task = Blueprint("task", __name__)
 
 
 # get all the tasks lists from the database
 @bp_task.route("/tasks", methods=["GET"])
+@login_required
 def get_all_tasks():
     success_message = "Successfully retrieved all the tasks from the database."
     failure_message = "Failed to retrieve all the tasks from the database."
@@ -82,6 +84,7 @@ def add_subtask():
 
 # update task in the database
 @bp_task.route("/tasks/<task_id>/update", methods=["PATCH"])
+@login_required
 def update_task(task_id):
     success_message = f"Successfully updated task with id {task_id} in the database."
     failure_message = f"Failed to update task with id {task_id} in the database."
@@ -125,6 +128,7 @@ def update_task(task_id):
 
 # delete a task from the database
 @bp_task.route("/tasks/<task_id>/delete", methods=["DELETE"])
+@login_required
 def delete_task(task_id):
     success_message = f"Successfully deleted task with id {task_id} from the database."
     failure_message = f"Failed to delete task with id {task_id} from the database."
@@ -180,6 +184,7 @@ def add_subtask_to_task(task_id):
 
 # move task to another list in the database
 @bp_task.route("/tasks/<task_id>/move", methods=["PATCH"])
+@login_required
 def move_task(task_id):
     success_message = f"Successfully moved task with id {task_id} in the database."
     failure_message = f"Failed to move task with id {task_id} in the database."

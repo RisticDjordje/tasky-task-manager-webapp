@@ -4,8 +4,8 @@ import ApiProvider from "./contexts/ApiProvider";
 import { styled } from '@mui/material/styles';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar'; // Assuming you have a Navbar component
-import Login from './components/Login'; // Assuming you have a Login component
-import Register from './components/Register'; // Assuming you have a Register component
+import Login from './components/auth/Login'; // Assuming you have a Login component
+import Register from './components/auth/Register'; // Assuming you have a Register component
 import HomePageTitle from './components/Title'; // Assuming you have a Title component
 import NotFoundPage from './components/NotFoundPage'; // Assuming you have a NotFoundPage component
 
