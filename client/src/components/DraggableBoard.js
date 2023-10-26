@@ -10,7 +10,6 @@ const Container = styled("div")({
   overflowX: "auto", // changed from 'flex' to 'auto'
   alignItems: "flex-start", // changed from 'center' to 'flex-start'
   width: "100%",
-  height: "100vh",
 });
 
 const DraggableBoard = () => {
@@ -111,51 +110,52 @@ const DraggableBoard = () => {
     }
 
     // Check if you're dragging tasks
-    if (type === "task") {
-      const sourceColumn = data.columns[source.droppableId];
-      const destColumn = data.columns[destination.droppableId];
-      const sourceTasks = Array.from(sourceColumn.tasks);
-      const destTasks = Array.from(destColumn.tasks);
-      const [removed] = sourceTasks.splice(source.index, 1);
+if (type === "task") {
+  const sourceColumn = data.columns[source.droppableId];
+  const destColumn = data.columns[destination.droppableId];
+  const sourceTasks = Array.from(sourceColumn.tasks);
+  const destTasks = Array.from(destColumn.tasks);
+  const [removed] = sourceTasks.splice(source.index, 1);
 
-      // Place the task in the new list
-      destTasks.splice(destination.index, 0, removed);
+  // Place the task in the new list
+  destTasks.splice(destination.index, 0, removed);
 
-      // Update the state with the new tasks
-      const newData = {
-        ...data,
-        columns: {
-          ...data.columns,
-          [source.droppableId]: {
-            ...sourceColumn,
-            tasks: sourceTasks,
-          },
-          [destination.droppableId]: {
-            ...destColumn,
-            tasks: destTasks,
-          },
-        },
-      };
-      setData(newData);
-
-      // Send the patch request to update the backend
-      try {
-        const response = await api_provider.patch(
-          `/tasks/${removed.id}/update`,
-          {
-            list_id: destination.droppableId,
-          }
-        );
-        if (response.ok) {
-          fetchLists(); // Refresh lists
-        } else {
-          throw new Error("Backend update failed");
-        }
-      } catch (error) {
-        console.error("Error moving task between lists:", error);
-      }
-    }
+  // Update the state with the new tasks
+  const newData = {
+    ...data,
+    columns: {
+      ...data.columns,
+      [source.droppableId]: {
+        ...sourceColumn,
+        tasks: sourceTasks,
+      },
+      [destination.droppableId]: {
+        ...destColumn,
+        tasks: destTasks,
+      },
+    },
   };
+  setData(newData);
+
+  // Send the patch request to update the backend
+  try {
+    const response = await api_provider.patch(
+      `/tasks/${removed.id}/update`,
+      {
+        list_id: destination.droppableId,
+      }
+    );
+    if (response.ok) {
+      fetchLists(); // Refresh lists
+    } else {
+      throw new Error("Backend update failed");
+    }
+  } catch (error) {
+    console.error("Error moving task between lists:", error);
+  }
+}
+  };
+
 
   return (
     <>

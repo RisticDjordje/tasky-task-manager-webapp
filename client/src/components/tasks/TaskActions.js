@@ -1,56 +1,13 @@
-import React from "react";
-import { Button, TextField, Checkbox } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
+import { IconButton, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import { useApi } from "../../contexts/ApiProvider";
-import { Typography } from "@mui/material";
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
 
-const TaskActions = ({ task, onUpdateLists }) => {
+const TaskActions = ({ task, onUpdateLists, onSubtaskAdded }) => {
   const api = useApi();
-  const [isEditing, setIsEditing] = useState(false);
-  const [newTaskName, setNewTaskName] = useState(task.name);
   const [openDialog, setOpenDialog] = useState(false);
   const [subtaskName, setSubtaskName] = useState("");
-
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-    setSubtaskName("");
-  };
-
-  const handleConfirmAddSubtask = async () => {
-    if (subtaskName) {
-      await handleAddSubtask(subtaskName);
-    }
-    handleCloseDialog();
-  };
-
-
-  const handleEditTask = async () => {
-    // Trim newTaskName to remove leading/trailing whitespace and check if it's empty
-    if (newTaskName.trim().length === 0) {
-      console.warn("Task name cannot be empty.");
-      setNewTaskName(task.name); // Reset to original name
-      return; // Stop the function here
-    }
-  
-    try {
-      await api.patch(`/tasks/${task.id}/update`, {
-        name: newTaskName.trim(),
-        list_id: task.list_id,
-        parent_id: task.parent_id,
-        is_completed: task.is_completed,
-      });
-      setIsEditing(false);
-      onUpdateLists();
-    } catch (error) {
-      console.error("Failed to edit task:", error);
-    }
-  };
-  
 
   const handleDeleteTask = async () => {
     try {
@@ -68,74 +25,65 @@ const TaskActions = ({ task, onUpdateLists }) => {
         list_id: task.list_id,
       });
       onUpdateLists();
+      onSubtaskAdded(); // Notify that a subtask was added
     } catch (error) {
       console.error("Failed to add subtask:", error);
+      // Consider keeping the dialog open or showing an error message here
     }
   };
 
-  const handleCheckboxChange = async (taskId, newStatus) => {
-    try {
-      const updated_task = await api.patch("/tasks/" + taskId + "/update", {
-        name: task.name,
-        is_completed: newStatus,
-        list_id: task.list_id,
-        parent_id: task.parent_id,
-      });
-      console.log(updated_task);
-      onUpdateLists();
-    } catch (error) {
-      console.error("Failed to update task:", error);
-    }
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
   };
 
-return (
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setSubtaskName("");
+  };
+
+  const handleConfirmAddSubtask = async () => {
+    if (subtaskName) {
+      await handleAddSubtask(subtaskName);
+    }
+    handleCloseDialog();
+  };
+
+  return (
     <>
-      <Checkbox
-        checked={task.is_completed}
-        inputProps={{ "aria-label": "controlled" }}
-        onChange={() => handleCheckboxChange(task.id, !task.is_completed)}
-      />
-      {isEditing ? (
-        <>
-          <TextField value={newTaskName} onChange={(e) => setNewTaskName(e.target.value)} />
-          <Button onClick={handleEditTask}>Save</Button>
-          <Button onClick={() => setIsEditing(false)}>Cancel</Button>
-        </>
-      ) : (
-        <>
-          <Typography>{task.name}</Typography>
-          <Button onClick={() => setIsEditing(true)}>Edit</Button>
-          <Button onClick={handleDeleteTask}>Delete</Button>
-          <Button onClick={handleOpenDialog}>Add Subtask</Button>
+      <IconButton onClick={handleDeleteTask} aria-label="Delete task">
+        <DeleteIcon />
+      </IconButton>
+      <IconButton onClick={handleOpenDialog} aria-label="Add subtask">
+        <AddIcon />
+      </IconButton>
 
-          <Dialog open={openDialog} onClose={handleCloseDialog}>
-            <DialogTitle>Add Subtask</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Please enter the name for the new subtask.
-              </DialogContentText>
-              <TextField
-                autoFocus
-                margin="dense"
-                label="Subtask Name"
-                type="text"
-                fullWidth
-                value={subtaskName}
-                onChange={(e) => setSubtaskName(e.target.value)}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleCloseDialog} color="primary">
-                Cancel
-              </Button>
-              <Button onClick={handleConfirmAddSubtask} color="primary">
-                Add
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </>
-      )}
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Add Subtask</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please enter the name for the new subtask.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Subtask Name"
+            type="text"
+            fullWidth
+            value={subtaskName}
+            onChange={(e) => setSubtaskName(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmAddSubtask} color="primary">
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
-);
-}
+  );
+};
+
 export default TaskActions;

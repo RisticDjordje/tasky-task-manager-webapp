@@ -7,11 +7,11 @@ import Navbar from './components/Navbar'; // Assuming you have a Navbar componen
 import Login from './components/Login'; // Assuming you have a Login component
 import Register from './components/Register'; // Assuming you have a Register component
 import HomePageTitle from './components/Title'; // Assuming you have a Title component
+import NotFoundPage from './components/NotFoundPage'; // Assuming you have a NotFoundPage component
 
 const StyledApp = styled('div')({
   textAlign: 'center',
   '& .App-logo': {
-    height: '40vmin',
     pointerEvents: 'none',
     '@media (prefers-reduced-motion: no-preference)': {
       animation: '$appLogoSpin infinite 20s linear',
@@ -19,7 +19,6 @@ const StyledApp = styled('div')({
   },
   '& .App-header': {
     backgroundColor: '#282c34',
-    minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -57,6 +56,7 @@ const App = () => {
             <Route path="/" element={<DraggableBoard data={data} setData={setData} />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </StyledApp>
       </Router>

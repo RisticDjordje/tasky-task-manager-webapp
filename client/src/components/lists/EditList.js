@@ -1,6 +1,14 @@
-import React, { useState } from 'react';
-import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button, IconButton } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Button,
+  IconButton,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 import { useApi } from "../../contexts/ApiProvider";
 
 const EditList = ({ columnId, initialName, onUpdateLists }) => {
@@ -19,8 +27,9 @@ const EditList = ({ columnId, initialName, onUpdateLists }) => {
   };
 
   const handleConfirmEdit = async () => {
-    if (!editedName.trim()) { // Check if name is just empty or spaces
-      setNameValid(false);  // Set the validation state to false
+    if (!editedName.trim()) {
+      // Check if name is just empty or spaces
+      setNameValid(false); // Set the validation state to false
       return;
     }
 
@@ -71,9 +80,9 @@ const EditList = ({ columnId, initialName, onUpdateLists }) => {
           <Button onClick={handleCloseEditDialog} color="primary">
             Cancel
           </Button>
-          <Button 
-            onClick={handleConfirmEdit} 
-            color="primary" 
+          <Button
+            onClick={handleConfirmEdit}
+            color="primary"
             disabled={!editedName.trim()} // Disable the button if name is empty or just spaces
           >
             Confirm
