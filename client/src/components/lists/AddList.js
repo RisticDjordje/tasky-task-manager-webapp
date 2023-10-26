@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { useApi } from "../../contexts/ApiProvider";
-import { TextField, Button, Box } from '@mui/material';
+import { TextField, Button, Box } from "@mui/material";
 
 function AddList({ onUpdateLists }) {
   const [listName, setListName] = useState("");
@@ -14,12 +14,13 @@ function AddList({ onUpdateLists }) {
   const api_provider = useApi();
 
   async function addList() {
-    if (!listName.trim()) { // Check if name is just empty or spaces
-      setNameValid(false);  // Set the validation state to false
+    if (!listName.trim()) {
+      // Check if name is just empty or spaces
+      setNameValid(false); // Set the validation state to false
       return;
     }
 
-    const list = await api_provider.post('/add_list', { name: listName });
+    const list = await api_provider.post("/add_list", { name: listName });
     onUpdateLists(list);
     console.log(list);
     setListName("");
@@ -48,11 +49,7 @@ function AddList({ onUpdateLists }) {
         error={!isNameValid} // Show error state when name is not valid
         helperText={!isNameValid ? "List name cannot be empty" : ""}
       />
-      <Button 
-        variant="contained" 
-        color="primary" 
-        onClick={addList}
-      >
+      <Button variant="contained" color="primary" onClick={addList}>
         Add List
       </Button>
     </Box>

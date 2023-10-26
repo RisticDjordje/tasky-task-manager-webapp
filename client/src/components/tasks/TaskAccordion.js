@@ -10,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { useApi } from "../../contexts/ApiProvider";
 
-
 const StyledAccordion = styled(Accordion)({
   marginBottom: "0.5rem",
   border: "1px solid #ccc",
@@ -46,7 +45,6 @@ const TaskAccordion = ({ task, onUpdateLists }) => {
   const [newSubtaskAdded, setNewSubtaskAdded] = useState(false);
   const hasSubtasks = task.subtasks && task.subtasks.length > 0;
   const api = useApi();
-
 
   const handleCheckboxChange = async (taskId, newStatus) => {
     try {
@@ -97,10 +95,14 @@ const TaskAccordion = ({ task, onUpdateLists }) => {
   return (
     <StyledAccordion expanded={expanded}>
       <StyledAccordionSummary
-        expandIcon={<ExpandMoreIcon onClick={(e) => {
-          e.stopPropagation();
-          setExpanded(!expanded);
-        }} />}
+        expandIcon={
+          <ExpandMoreIcon
+            onClick={(e) => {
+              e.stopPropagation();
+              setExpanded(!expanded);
+            }}
+          />
+        }
         onClick={(e) => e.stopPropagation()}
         aria-controls="panel-content"
         id="panel-header"
@@ -116,7 +118,7 @@ const TaskAccordion = ({ task, onUpdateLists }) => {
               onChange={(e) => setNewTaskName(e.target.value)}
               onBlur={handleEditTask}
               onKeyPress={(e) => {
-                if (e.key === 'Enter') {
+                if (e.key === "Enter") {
                   handleEditTask();
                 }
               }}
@@ -128,12 +130,20 @@ const TaskAccordion = ({ task, onUpdateLists }) => {
           )}
         </TaskTitleContainer>
 
-        <TaskActions task={task} onUpdateLists={onUpdateLists} onSubtaskAdded={onSubtaskAdded} />
+        <TaskActions
+          task={task}
+          onUpdateLists={onUpdateLists}
+          onSubtaskAdded={onSubtaskAdded}
+        />
       </StyledAccordionSummary>
       {hasSubtasks && (
         <StyledAccordionDetails>
           {task.subtasks.map((subtask) => (
-            <TaskAccordion key={subtask.id} task={subtask} onUpdateLists={onUpdateLists} />
+            <TaskAccordion
+              key={subtask.id}
+              task={subtask}
+              onUpdateLists={onUpdateLists}
+            />
           ))}
         </StyledAccordionDetails>
       )}

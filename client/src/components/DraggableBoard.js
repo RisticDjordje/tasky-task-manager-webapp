@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import List from "./lists/List";
 import { useApi } from "../contexts/ApiProvider";
 import AddList from "./lists/AddList";
 import { styled } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext"; // <-- Import AuthContext
 
 const Container = styled("div")({
   display: "flex",
@@ -14,6 +16,15 @@ const Container = styled("div")({
 
 const DraggableBoard = () => {
   const api_provider = useApi();
+  const navigate = useNavigate(); // <-- Use the useNavigate hook
+  const { isLoggedIn } = useContext(AuthContext); // <-- Destructure isLoggedIn from AuthContext
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login"); // Redirect to login page if user is not logged in
+    }
+  }, [isLoggedIn, navigate]);
+
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({
     columns: {}, // format: {list_id: {name: list_name, tasks: {object}]}}
@@ -110,52 +121,51 @@ const DraggableBoard = () => {
     }
 
     // Check if you're dragging tasks
-if (type === "task") {
-  const sourceColumn = data.columns[source.droppableId];
-  const destColumn = data.columns[destination.droppableId];
-  const sourceTasks = Array.from(sourceColumn.tasks);
-  const destTasks = Array.from(destColumn.tasks);
-  const [removed] = sourceTasks.splice(source.index, 1);
+    if (type === "task") {
+      const sourceColumn = data.columns[source.droppableId];
+      const destColumn = data.columns[destination.droppableId];
+      const sourceTasks = Array.from(sourceColumn.tasks);
+      const destTasks = Array.from(destColumn.tasks);
+      const [removed] = sourceTasks.splice(source.index, 1);
 
-  // Place the task in the new list
-  destTasks.splice(destination.index, 0, removed);
+      // Place the task in the new list
+      destTasks.splice(destination.index, 0, removed);
 
-  // Update the state with the new tasks
-  const newData = {
-    ...data,
-    columns: {
-      ...data.columns,
-      [source.droppableId]: {
-        ...sourceColumn,
-        tasks: sourceTasks,
-      },
-      [destination.droppableId]: {
-        ...destColumn,
-        tasks: destTasks,
-      },
-    },
-  };
-  setData(newData);
+      // Update the state with the new tasks
+      const newData = {
+        ...data,
+        columns: {
+          ...data.columns,
+          [source.droppableId]: {
+            ...sourceColumn,
+            tasks: sourceTasks,
+          },
+          [destination.droppableId]: {
+            ...destColumn,
+            tasks: destTasks,
+          },
+        },
+      };
+      setData(newData);
 
-  // Send the patch request to update the backend
-  try {
-    const response = await api_provider.patch(
-      `/tasks/${removed.id}/update`,
-      {
-        list_id: destination.droppableId,
+      // Send the patch request to update the backend
+      try {
+        const response = await api_provider.patch(
+          `/tasks/${removed.id}/update`,
+          {
+            list_id: destination.droppableId,
+          }
+        );
+        if (response.ok) {
+          fetchLists(); // Refresh lists
+        } else {
+          throw new Error("Backend update failed");
+        }
+      } catch (error) {
+        console.error("Error moving task between lists:", error);
       }
-    );
-    if (response.ok) {
-      fetchLists(); // Refresh lists
-    } else {
-      throw new Error("Backend update failed");
     }
-  } catch (error) {
-    console.error("Error moving task between lists:", error);
-  }
-}
   };
-
 
   return (
     <>

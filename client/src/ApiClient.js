@@ -1,14 +1,15 @@
-const BASE_API_URL = process.env.REACT_APP_BACKEND_API_URL || 'http://localhost:5001'; 
+const BASE_API_URL =
+  process.env.REACT_APP_BACKEND_API_URL || "http://localhost:5001";
 
 export default class TodoApiClient {
   constructor() {
-    this.base_url =  BASE_API_URL;
+    this.base_url = BASE_API_URL;
   }
 
   async request(options) {
     let query = new URLSearchParams(options.query || {}).toString();
-    if (query !== '') {
-      query = '?' + query;
+    if (query !== "") {
+      query = "?" + query;
     }
 
     let response;
@@ -16,48 +17,50 @@ export default class TodoApiClient {
       response = await fetch(this.base_url + options.url + query, {
         method: options.method,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           ...options.headers,
         },
+        credentials: "include",
         body: options.body ? JSON.stringify(options.body) : null,
       });
-    }
-    catch (error) {
+    } catch (error) {
       response = {
         ok: false,
         status: 500,
-        json: async () => { return {
-          code: 500,
-          message: 'The server is unresponsive',
-          description: error.toString(),
-        }; }
+        json: async () => {
+          return {
+            code: 500,
+            message: "The server is unresponsive",
+            description: error.toString(),
+          };
+        },
       };
     }
 
     return {
       ok: response.ok,
       status: response.status,
-      body: response.status !== 204 ? await response.json() : null
+      body: response.status !== 204 ? await response.json() : null,
     };
   }
 
   async get(url, query, options) {
-    return this.request({method: 'GET', url, query, ...options});
+    return this.request({ method: "GET", url, query, ...options });
   }
 
   async post(url, body, options) {
-    return this.request({method: 'POST', url, body, ...options});
+    return this.request({ method: "POST", url, body, ...options });
   }
 
   async put(url, body, options) {
-    return this.request({method: 'PUT', url, body, ...options});
+    return this.request({ method: "PUT", url, body, ...options });
   }
 
   async delete(url, options) {
-    return this.request({method: 'DELETE', url, ...options});
+    return this.request({ method: "DELETE", url, ...options });
   }
 
   async patch(url, body, options) {
-    return this.request({method: 'PATCH', url, body, ...options});
+    return this.request({ method: "PATCH", url, body, ...options });
   }
 }

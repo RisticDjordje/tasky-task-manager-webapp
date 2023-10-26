@@ -50,7 +50,10 @@ const Register = () => {
     try {
       const response = await api.post("/register", formData);
       if (response.ok) {
-        triggerAlert("Registration successful! Redirecting you to the login page.", "success");
+        triggerAlert(
+          "Registration successful! Redirecting you to the login page.",
+          "success"
+        );
         setTimeout(() => {
           window.location.href = "/login";
         }, 2000);

@@ -5,30 +5,6 @@ from flask_login import login_required
 bp_task = Blueprint("task", __name__)
 
 
-# get all the tasks lists from the database
-@bp_task.route("/tasks", methods=["GET"])
-@login_required
-def get_all_tasks():
-    success_message = "Successfully retrieved all the tasks from the database."
-    failure_message = "Failed to retrieve all the tasks from the database."
-    success_status = 200
-    try:
-        tasks = Tasks.query.all()
-        print("User retrieved all tasks from the database: ", tasks)
-
-        return (
-            jsonify(
-                {
-                    "message": success_message,
-                    "lists": [task.to_dict() for task in tasks],
-                }
-            ),
-            success_status,
-        )
-    except Exception as e:
-        return jsonify({"message": f"{failure_message}. error is {e}"}), 400
-
-
 # post a new task to the database
 @bp_task.route("/add_task", methods=["POST"])
 def add_task():

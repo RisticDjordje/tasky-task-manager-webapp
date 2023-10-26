@@ -14,7 +14,7 @@ def get_all_lists():
     failure_message = "Failed to retrieve all lists from the database."
     success_status = 200
     try:
-        lists = Lists.query.all()
+        lists = Lists.query.filter_by(user_id=current_user.id).order_by(Lists.order_index).all()
         print("User retrieved all lists from the database")
         return (
             jsonify(
@@ -40,7 +40,8 @@ def add_list():
     print("User is adding a new list to the database: ", request.get_json())
     try:
         list_data = request.get_json()
-        new_list = Lists(name=list_data["name"], order_index=len(Lists.query.all()), tasks=[])
+        user_id = current_user.id
+        new_list = Lists(name=list_data["name"], user_id = user_id, order_index=len(Lists.query.all()), tasks=[])
         db.session.add(new_list)
         db.session.commit()
         print("User added a new list to the database")

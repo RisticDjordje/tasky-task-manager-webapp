@@ -1,22 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 
 const theme = createTheme({
   typography: {
-    fontFamily: 'Inter, sans-serif',
+    fontFamily: "Inter, sans-serif",
   },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
-        '@global': {
-          '@import': "url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap')",
-          'html, body': {
-            height: '100vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+        "@global": {
+          "@import":
+            "url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap')",
+          "html, body": {
+            height: "100vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           },
         },
       },
@@ -31,5 +32,5 @@ ReactDOM.render(
       <App />
     </ThemeProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );

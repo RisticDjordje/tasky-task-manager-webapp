@@ -1,11 +1,20 @@
-import React, { useState } from "react";
-import { Button, TextField, Paper, Typography, Container, Grid } from "@mui/material";
+import React, { useState, useContext, useEffect } from "react";
+import {
+  Button,
+  TextField,
+  Paper,
+  Typography,
+  Container,
+  Grid,
+} from "@mui/material";
 import { useApi } from "../../contexts/ApiProvider";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom"; // <-- Import Redirect
 import AlertMessage from "./AlertMessage";
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    login: "", 
+    login: "",
     password: "",
   });
 
@@ -16,7 +25,9 @@ const Login = () => {
     severity: "error",
   });
 
+  const navigate = useNavigate(); // <-- Use the useNavigate hook
   const api = useApi();
+  const { login, isLoggedIn } = useContext(AuthContext); // <-- Destructure isLoggedIn from context
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,17 +42,23 @@ const Login = () => {
     setAlert({ ...alert, open: false });
   };
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/"); // <-- Redirect to home page if user is logged in
+    }
+  }, [isLoggedIn, navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await api.post("/login", formData);
       if (response.ok) {
-        triggerAlert("Login successful! Redirecting you to home page", "success");
-        // redirect to home page 
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 1500);
+        login(response.body.user); // Update login state with user data
+        console.log(response.body.message);
+        triggerAlert(
+          "Login successful! Redirecting you to home page",
+          "success"
+        );
       } else {
         triggerAlert(response.body.message, "error");
       }
@@ -55,11 +72,22 @@ const Login = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Paper elevation={3} style={{ padding: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <Paper
+        elevation={3}
+        style={{
+          padding: "20px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <Typography component="h1" variant="h5">
           Login
         </Typography>
-        <form onSubmit={handleSubmit} style={{ width: "100%", marginTop: "20px" }}>
+        <form
+          onSubmit={handleSubmit}
+          style={{ width: "100%", marginTop: "20px" }}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
