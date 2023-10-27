@@ -94,6 +94,10 @@
    git clone
    ```
 2. Create a virtual environment (Conda, Pipenv, etc.). Optional but highly recommended.
+   ```sh
+   conda create -n myenv python
+   conda activate myenv
+   ```   
 
 #### Frontend
 

@@ -82,7 +82,7 @@ const Register = () => {
         );
         setTimeout(() => {
           window.location.href = "/login";
-        }, 2000);
+        }, 800);
       } else {
         // Adjusted for provided error object structure
         triggerAlert(response.body.message, "error");
