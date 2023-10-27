@@ -87,23 +87,24 @@ def update_task(task_id):
         task.list_id = task_data["list_id"]
         task.parent_id = task_data["parent_id"]
         task.is_completed = task_data["is_completed"]
-
         # if the task is completed and the task has a parent task, then go through all the parents subtasks and check if they are all completed.
         # if they are all completed, then set the parent task to completed
         def check_parent_completion(task):
-            parent_task = Tasks.query.get(task.parent_id)
-            all_subtasks_completed = True
-            for subtask in parent_task.subtasks:
-                if not subtask.is_completed:
-                    all_subtasks_completed = False
-                    break
-            if all_subtasks_completed:
-                parent_task.is_completed = True
-                if parent_task.parent_id is not None:
-                    check_parent_completion(parent_task)
+                parent_task = Tasks.query.get(task.parent_id)
+                all_subtasks_completed = True
+                for subtask in parent_task.subtasks:
+                    if not subtask.is_completed:
+                        all_subtasks_completed = False
+                        break
+                if all_subtasks_completed:
+                    parent_task.is_completed = True
+                    if parent_task.parent_id is not None:
+                        check_parent_completion(parent_task)
 
         if task.is_completed and task.parent_id is not None:
             check_parent_completion(task)
+           
+        
 
         db.session.commit()
         print("User updated task with id {task_id} in the database: ", task)
@@ -189,13 +190,24 @@ def move_task(task_id):
     print("User is moving task with id {task_id} in the database: ", request.get_json())
 
     try:
-        task_data = request.get_json()
+        # get the task id from the url
         task = Tasks.query.get(task_id)
-        task.list_id = task_data["list_id"]
-        db.session.commit()
-        print("User moved task with id {task_id} in the database: ", task)
-        return jsonify({"message": success_message}), success_status
+        
+        post_data = request.get_json()
+        list_id = post_data["list_id"]
+        
+        # change task list if the list id is different
+        if task.list_id != list_id:
+            task.list_id = list_id
+            task.task_depth = 0
+            task.parent_id = None
+            db.session.commit()
+            print(f"User updated task with id {task_id} in the database: ", task)
+            return jsonify({"message": success_message}), success_status
+        else:
+            print("Task is already at that id")
+            return jsonify({"message": success_message}), success_status
 
     except Exception as e:
-        print("Error moving task with id {task_id} in the database: ", e)
+        print(f"Error moving task with id {task_id} in the database: ", e)
         return jsonify({"message": f"{failure_message}. error is {e}"}), 400

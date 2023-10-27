@@ -26,7 +26,7 @@ class Lists(db.Model):
     name = db.Column(db.String(50), nullable=False)
     user_id = db.Column(
         db.Integer, db.ForeignKey("users.id"), nullable=False
-    )  # Foreign key to Users
+    )
     tasks = db.relationship("Tasks", backref="lists", lazy=True)
     order_index = db.Column(db.Integer, nullable=False)
 

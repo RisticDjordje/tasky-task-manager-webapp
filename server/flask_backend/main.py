@@ -4,7 +4,7 @@ from models import db, Users
 from blueprints.bp_tasks import bp_task
 from blueprints.bp_lists import bp_list
 from blueprints.bp_auth import bp_auth
-from flask_login import LoginManager
+from flask_login import LoginManager  
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
@@ -15,7 +15,6 @@ app.register_blueprint(bp_auth)
 login_manager = LoginManager()
 login_manager.init_app(app)
 app.secret_key = "test"
-
 
 @login_manager.user_loader
 def load_user(id):

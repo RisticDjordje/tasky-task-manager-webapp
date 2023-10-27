@@ -11,12 +11,25 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import MoveIcon from "@mui/icons-material/DriveFileMove";
 import { useApi } from "../../contexts/ApiProvider";
+import MoveTask from "./MoveTask";
 
 const TaskActions = ({ task, onUpdateLists, onSubtaskAdded }) => {
   const api = useApi();
   const [openDialog, setOpenDialog] = useState(false);
   const [subtaskName, setSubtaskName] = useState("");
+
+  const [openMoveDialog, setOpenMoveDialog] = useState(false);
+
+  const handleOpenMoveDialog = () => {
+    setOpenMoveDialog(true);
+  };
+
+  const handleCloseMoveDialog = () => {
+    setOpenMoveDialog(false);
+  };
+
 
   const handleDeleteTask = async () => {
     try {
@@ -59,6 +72,9 @@ const TaskActions = ({ task, onUpdateLists, onSubtaskAdded }) => {
 
   return (
     <>
+        <IconButton onClick={handleOpenMoveDialog} aria-label="Move task">
+        <MoveIcon />
+      </IconButton>
       <IconButton onClick={handleDeleteTask} aria-label="Delete task">
         <DeleteIcon />
       </IconButton>
@@ -91,6 +107,13 @@ const TaskActions = ({ task, onUpdateLists, onSubtaskAdded }) => {
           </Button>
         </DialogActions>
       </Dialog>
+
+<MoveTask
+  open={openMoveDialog}
+  onClose={handleCloseMoveDialog}
+  task={task}
+  fetchLists={onUpdateLists} // Pass the method to update lists after moving task
+/>
     </>
   );
 };

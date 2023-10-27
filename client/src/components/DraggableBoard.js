@@ -52,6 +52,10 @@ const DraggableBoard = () => {
           columnOrder.push(columnOrderDict[order_index]);
         }
 
+        // add columns to local state
+        localStorage.setItem("columns", JSON.stringify(columns));
+        console.log(columns)
+
         setData({
           columns: columns,
           columnOrder: columnOrder,
