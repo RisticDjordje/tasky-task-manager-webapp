@@ -73,9 +73,98 @@ const DraggableBoard = () => {
   }
 
   const onDragEnd = async (result) => {
-    // ... (rest of the code for onDragEnd)
-  };
+    console.log(result); // Log the result object
+    const { destination, source, draggableId, type } = result;
+    // If there is no destination
+    if (!destination) {
+      return;
+    }
 
+    // If source and destination are the same
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    // If you're dragging columns
+    if (type === "column") {
+      const newColumnOrder = Array.from(data.columnOrder);
+      newColumnOrder.splice(source.index, 1);
+      newColumnOrder.splice(destination.index, 0, draggableId);
+      const newState = {
+        ...data,
+        columnOrder: newColumnOrder,
+      };
+      setData(newState);
+
+      // Prepare the data for the POST request
+      const reorderedLists = newColumnOrder.map((id, order_index) => ({
+        id,
+        order_index,
+      }));
+
+      try {
+        const response = await api_provider.post("/update_order", {
+          lists: reorderedLists,
+        });
+        if (response.ok) {
+          console.log("Successfully updated order indexes on the backend.");
+        } else {
+          console.error("Failed to update order indexes on the backend.");
+        }
+      } catch (error) {
+        console.error("Error updating order indexes on the backend:", error);
+      }
+    }
+
+    // Check if you're dragging tasks
+    if (type === "task") {
+      const sourceColumn = data.columns[source.droppableId];
+      const destColumn = data.columns[destination.droppableId];
+      const sourceTasks = Array.from(sourceColumn.tasks);
+      const destTasks = Array.from(destColumn.tasks);
+      const [removed] = sourceTasks.splice(source.index, 1);
+
+      // Place the task in the new list
+      destTasks.splice(destination.index, 0, removed);
+
+      // Update the state with the new tasks
+      const newData = {
+        ...data,
+        columns: {
+          ...data.columns,
+          [source.droppableId]: {
+            ...sourceColumn,
+            tasks: sourceTasks,
+          },
+          [destination.droppableId]: {
+            ...destColumn,
+            tasks: destTasks,
+          },
+        },
+      };
+      setData(newData);
+
+      // Send the patch request to update the backend
+      try {
+        const response = await api_provider.patch(
+          `/tasks/${removed.id}/update`,
+          {
+            list_id: destination.droppableId,
+          }
+        );
+        if (response.ok) {
+          fetchLists(); // Refresh lists
+        } else {
+          throw new Error("Backend update failed");
+        }
+      } catch (error) {
+        console.error("Error moving task between lists:", error);
+      }
+    }
+  };
   return (
     <>
       <AddList onUpdateLists={fetchLists} />
