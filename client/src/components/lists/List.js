@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 import DeleteList from "./DeleteList";
 import EditList from "./EditList";
 import TaskAccordion from "../tasks/TaskAccordion.js";
+import CompletedTasksCount from "./CompletedTasksCount";
 
 const Container = styled("div")({
   margin: "2.5rem 1rem",
@@ -53,6 +54,7 @@ const List = ({ id, name, tasks, index, onUpdateLists }) => {
       {(provided) => (
         <Container ref={provided.innerRef} {...provided.draggableProps}>
           <Title {...provided.dragHandleProps}>
+            <CompletedTasksCount tasks={tasks} />
             {name}
             <ButtonContainer>
               <EditList

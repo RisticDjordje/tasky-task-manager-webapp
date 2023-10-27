@@ -1,6 +1,6 @@
 from flask import jsonify, request, Blueprint
 from models import Tasks, db
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 bp_task = Blueprint("task", __name__)
 
@@ -11,7 +11,6 @@ def add_task():
     success_message = "Successfully added task to the database."
     failure_message = "Failed to add task to the database."
     success_status = 200
-    print("User is adding a new task to the database: ", request.get_json())
 
     try:
         task_data = request.get_json()
@@ -23,38 +22,11 @@ def add_task():
         )
         db.session.add(new_task)
         db.session.commit()
-        print("User added a new task to the database: ", new_task)
-        print("Current tasks in the database: ", Tasks.query.all())
+        print(f"User {current_user.username} added a new task. ")
         return jsonify({"message": success_message}), success_status
 
     except Exception as e:
-        print("Error adding task to the database: ", e)
-        return jsonify({"message": f"{failure_message}. error is {e}"}), 400
-
-
-# post a new task to the database
-@bp_task.route("/add_subtask", methods=["POST"])
-def add_subtask():
-    success_message = "Successfully added task to the database."
-    failure_message = "Failed to add task to the database."
-    success_status = 200
-    print("User is adding a subnew task to the database: ", request.get_json())
-
-    try:
-        task_data = request.get_json()
-        new_task = Tasks(
-            name=task_data["name"],
-            list_id=task_data["list_id"],
-            parent_id=task_data["parent_id"],
-            task_depth=Tasks.query.get(task_data["parent_id"]).task_depth + 1,
-        )
-        db.session.add(new_task)
-        db.session.commit()
-        print("User added a new subtask to the database: ", new_task)
-        return jsonify({"message": success_message}), success_status
-
-    except Exception as e:
-        print("Error adding task to the database: ", e)
+        print(f"User {current_user.username}: Error adding task to the database: ", e)
         return jsonify({"message": f"{failure_message}. error is {e}"}), 400
 
 
@@ -78,8 +50,6 @@ def update_task(task_id):
     success_message = f"Successfully updated task with id {task_id} in the database."
     failure_message = f"Failed to update task with id {task_id} in the database."
     success_status = 200
-    print("User is updating task with id {task_id} in the database: ")
-
     try:
         task_data = request.get_json()
         task = Tasks.query.get(task_id)
@@ -87,31 +57,30 @@ def update_task(task_id):
         task.list_id = task_data["list_id"]
         task.parent_id = task_data["parent_id"]
         task.is_completed = task_data["is_completed"]
+
         # if the task is completed and the task has a parent task, then go through all the parents subtasks and check if they are all completed.
         # if they are all completed, then set the parent task to completed
         def check_parent_completion(task):
-                parent_task = Tasks.query.get(task.parent_id)
-                all_subtasks_completed = True
-                for subtask in parent_task.subtasks:
-                    if not subtask.is_completed:
-                        all_subtasks_completed = False
-                        break
-                if all_subtasks_completed:
-                    parent_task.is_completed = True
-                    if parent_task.parent_id is not None:
-                        check_parent_completion(parent_task)
+            parent_task = Tasks.query.get(task.parent_id)
+            all_subtasks_completed = True
+            for subtask in parent_task.subtasks:
+                if not subtask.is_completed:
+                    all_subtasks_completed = False
+                    break
+            if all_subtasks_completed:
+                parent_task.is_completed = True
+                if parent_task.parent_id is not None:
+                    check_parent_completion(parent_task)
 
         if task.is_completed and task.parent_id is not None:
             check_parent_completion(task)
-           
-        
-
         db.session.commit()
-        print("User updated task with id {task_id} in the database: ", task)
+
+        print(f"User {current_user.username} updated a task. ")
         return jsonify({"message": success_message}), success_status
 
     except Exception as e:
-        print("Error updating task with id {task_id} in the database: ", e)
+        print(f"User {current_user.username}. Error updating a task: ", e)
         return jsonify({"message": f"{failure_message}. error is {e}"}), 400
 
 
@@ -122,17 +91,18 @@ def delete_task(task_id):
     success_message = f"Successfully deleted task with id {task_id} from the database."
     failure_message = f"Failed to delete task with id {task_id} from the database."
     success_status = 200
-    print("User is deleting task with id {task_id} from the database")
-
     try:
         task = Tasks.query.get(task_id)
         db.session.delete(task)
         db.session.commit()
-        print("User deleted task with id {task_id} from the database")
+        print(f"User {current_user.username} deleted a task. ")
         return jsonify({"message": success_message}), success_status
 
     except Exception as e:
-        print("Error deleting task with id {task_id} from the database: ", e)
+        print(
+            f"User {current_user.username}. Error deleting task with id {task_id} from the database: ",
+            e,
+        )
         return jsonify({"message": f"{failure_message}. error is {e}"}), 400
 
 
@@ -146,10 +116,6 @@ def add_subtask_to_task(task_id):
         f"Failed to add subtask to task with id {task_id} in the database."
     )
     success_status = 200
-    print(
-        "User is adding subtask to task with id {task_id} in the database: ",
-        request.get_json(),
-    )
 
     try:
         task_data = request.get_json()
@@ -161,13 +127,15 @@ def add_subtask_to_task(task_id):
         )
         db.session.add(new_task)
         db.session.commit()
-        print(
-            "User added subtask to task with id {task_id} in the database: ", new_task
-        )
+
+        print(f"User {current_user.username} added a new subtask. ")
         return jsonify({"message": success_message}), success_status
 
     except Exception as e:
-        print("Error adding subtask to task with id {task_id} in the database: ", e)
+        print(
+            f"User {current_user.username}. Error adding subtask to task with id {task_id} in the database: ",
+            e,
+        )
         return jsonify({"message": f"{failure_message}. error is {e}"}), 400
 
 
@@ -187,27 +155,28 @@ def move_task(task_id):
     success_message = f"Successfully moved task with id {task_id} in the database."
     failure_message = f"Failed to move task with id {task_id} in the database."
     success_status = 200
-    print("User is moving task with id {task_id} in the database: ", request.get_json())
 
     try:
         # get the task id from the url
         task = Tasks.query.get(task_id)
-        
+
         post_data = request.get_json()
         list_id = post_data["list_id"]
-        
+
         # change task list if the list id is different
         if task.list_id != list_id:
             task.list_id = list_id
             task.task_depth = 0
             task.parent_id = None
             db.session.commit()
-            print(f"User updated task with id {task_id} in the database: ", task)
+            print(f"User {current_user.username} moved task from one list to another. ")
             return jsonify({"message": success_message}), success_status
         else:
-            print("Task is already at that id")
-            return jsonify({"message": success_message}), success_status
+            return jsonify({"message": "Task is already in this list."}), success_status
 
     except Exception as e:
-        print(f"Error moving task with id {task_id} in the database: ", e)
+        print(
+            f"User {current_user.username}. Error moving task with id {task_id} in the database: ",
+            e,
+        )
         return jsonify({"message": f"{failure_message}. error is {e}"}), 400

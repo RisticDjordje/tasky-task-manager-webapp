@@ -20,7 +20,7 @@ const MoveTask = ({ task, open, onClose, fetchLists }) => {
     const storedColumns = localStorage.getItem("columns");
     if (storedColumns) {
       const allLists = Object.values(JSON.parse(storedColumns));
-      const filteredLists = allLists.filter(list => list.id !== task.list_id); // Filter out the current list
+      const filteredLists = allLists.filter((list) => list.id !== task.list_id); // Filter out the current list
       setLists(filteredLists);
     }
   }, [open, task.list_id]); // Added task.list_id dependency

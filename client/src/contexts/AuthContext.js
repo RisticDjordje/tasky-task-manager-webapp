@@ -30,19 +30,17 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       const response = await api.post("/logout"); // Send a POST request to the backend using the api object
-
       if (response.ok) {
-        setUsername(null);
-        setIsLoggedIn(false);
-        localStorage.removeItem("username");
-        localStorage.removeItem("isLoggedIn");
-        navigate("/login"); // <-- Redirect to login page after logging out
-      } else {
-        console.error(`Error logging out: ${response.body.message}`); // Log error message to console
+        console.log("Logged out successfully.");
       }
     } catch (error) {
       console.error(`Network error: ${error.message}`); // Log network error to console
     }
+    setUsername(null);
+    setIsLoggedIn(false);
+    localStorage.removeItem("username");
+    localStorage.removeItem("isLoggedIn");
+    navigate("/login"); // <-- Redirect to login page after logging out
   };
 
   const contextValue = {

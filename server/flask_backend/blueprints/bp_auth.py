@@ -9,7 +9,6 @@ bp_auth = Blueprint("auth", __name__)
 
 @bp_auth.route("/register", methods=["POST"])
 def register():
-    print("Registering new user")
     try:
         data = request.get_json()
         username = data["username"]
@@ -27,7 +26,7 @@ def register():
 
         db.session.add(new_user)
         db.session.commit()
-
+        print(f"New user created: {new_user.username}")
         return jsonify({"message": "New user created!"}), 201
     except Exception as e:
         print(f"Error creating new user: {e}")
@@ -36,7 +35,6 @@ def register():
 
 @bp_auth.route("/login", methods=["POST"])
 def login():
-    print("Logging in user")
     try:
         data = request.get_json()
         login = data["login"]  # can be either username or email
@@ -51,6 +49,7 @@ def login():
             return jsonify({"message": "Username or password is incorrect!"}), 400
 
         login_user(user)
+        print(f"User {user.username} logged in successfully! Session id: {user.id}")
         return (
             jsonify({"message": "Logged in successfully!", "username": user.username}),
             200,
@@ -63,8 +62,8 @@ def login():
 @bp_auth.route("/logout", methods=["POST"])
 @login_required
 def logout():
-    print("Logging out user", current_user.username)
     try:
+        print(f"User {current_user.username} logged out successfully!")
         logout_user()
         return jsonify({"message": "Logged out successfully!"}), 200
     except Exception as e:

@@ -10,6 +10,7 @@ bp_list = Blueprint("list", __name__)
 @login_required
 def get_all_lists():
     if not current_user.is_authenticated:
+        print("Non-authenticated user tried to fetch all lists")
         return jsonify({"message": "User is not authenticated"}), 401
     success_message = "Successfully retrieved all lists from the database."
     failure_message = "Failed to retrieve all lists from the database."
@@ -20,7 +21,7 @@ def get_all_lists():
             .order_by(Lists.order_index)
             .all()
         )
-        print("User retrieved all lists from the database")
+        print(f"User {current_user.username} fetched all of their lists")
         return (
             jsonify(
                 {
@@ -31,6 +32,7 @@ def get_all_lists():
             success_status,
         )
     except Exception as e:
+        print(f"User {current_user.username}. Error fetching all of their lists: ", e)
         return jsonify({"message": f"{failure_message}. error is {e}"}), 400
 
 
@@ -39,11 +41,12 @@ def get_all_lists():
 @login_required
 def add_list():
     if not current_user.is_authenticated:
+        print("Non-authenticated user tried to add a new list")
         return jsonify({"message": "User is not authenticated"}), 401
     success_message = "Successfully added list to the database."
     failure_message = "Failed to add list to the database."
     success_status = 200
-    print("User is adding a new list to the database: ", request.get_json())
+
     try:
         list_data = request.get_json()
         user_id = current_user.id
@@ -55,26 +58,12 @@ def add_list():
         )
         db.session.add(new_list)
         db.session.commit()
-        print("User added a new list to the database")
+        print(f"User {current_user.username} added a new list to their list")
         return jsonify({"message": success_message}), success_status
     except Exception as e:
-        print("Error adding list to the database: ", e)
-        return jsonify({"message": f"{failure_message}. error is {e}"}), 400
-
-
-# get a specific list from the database
-@bp_list.route("/lists/<list_id>", methods=["GET"])
-def get_list(list_id):
-    if not current_user.is_authenticated:
-        return jsonify({"message": "User is not authenticated"}), 401
-    success_message = f"Successfully retrieved list with id {list_id}."
-    failure_message = f"Failed to retrieve list with id {list_id}."
-    status = 200
-
-    try:
-        list = Lists.query.get(list_id)
-        return jsonify({"message": success_message, "list": list.to_dict()}), status
-    except Exception as e:
+        print(
+            f"User {current_user.username} error adding a new list to their list: ", e
+        )
         return jsonify({"message": f"{failure_message}. error is {e}"}), 400
 
 
@@ -83,11 +72,13 @@ def get_list(list_id):
 @login_required
 def update_order():
     if not current_user.is_authenticated:
+        print(
+            "Non-authenticated user tried to update order indexes of lists in the database"
+        )
         return jsonify({"message": "User is not authenticated"}), 401
     success_message = "Successfully updated order indexes of lists in the database."
     failure_message = "Failed to update order indexes of lists in the database."
     success_status = 200
-    print("User is updating order indexes of lists in the database")
     try:
         list_data = request.get_json()[
             "lists"
@@ -99,10 +90,15 @@ def update_order():
             list_to_update = Lists.query.get(list_id)
             list_to_update.order_index = list_order_index
             db.session.commit()
-        print("User updated order indexes of lists in the database ")
+        print(
+            f"User {current_user.username} updated order indexes of lists in the database"
+        )
         return jsonify({"message": success_message}), success_status
     except Exception as e:
-        print("Error updating order indexes of lists in the database: ", e)
+        print(
+            f"User {current_user.username}. Error updating order indexes of lists in the database: ",
+            e,
+        )
         return jsonify({"message": f"{failure_message}. error is {e}"}), 400
 
 
@@ -128,10 +124,13 @@ def delete_list(list_id):
         db.session.delete(list_to_delete)
         db.session.commit()
 
-        print(f"User deleted list with id {list_id}.")
+        print(f"User {current_user.username} deleted list with id {list_id}")
         return jsonify({"message": success_message}), success_status
     except Exception as e:
-        print(f"Error deleting list with id {list_id}: ", e)
+        print(
+            f"User {current_user.username}. Error deleting list with id {list_id} from the database: ",
+            e,
+        )
         return jsonify({"message": f"{failure_message}. Error is {e}"}), 400
 
 
@@ -140,6 +139,7 @@ def delete_list(list_id):
 @login_required
 def update_list_name():
     if not current_user.is_authenticated:
+        print("Non-authenticated user tried to update list name in the database")
         return jsonify({"message": "User is not authenticated"}), 401
     success_message = "Successfully updated list name in the database."
     failure_message = "Failed to update list name in the database."
@@ -152,8 +152,11 @@ def update_list_name():
         list_to_update = Lists.query.get(list_id)
         list_to_update.name = list_name
         db.session.commit()
-        print("User updated list name in the database: ", Lists.query.all())
+        print(f"User {current_user.username} updated list name in the database")
         return jsonify({"message": success_message}), success_status
     except Exception as e:
-        print("Error updating list name in the database: ", e)
+        print(
+            f"User {current_user.username}. Error updating list name in the database: ",
+            e,
+        )
         return jsonify({"message": f"{failure_message}. error is {e}"}), 400

@@ -32,6 +32,10 @@ const DraggableBoard = () => {
   });
 
   const fetchLists = useCallback(async () => {
+    if (!isLoggedIn) {
+      console.log("User not logged in, skipping fetchLists.");
+      return;
+    }
     try {
       const response = await api_provider.get("/lists");
 
@@ -54,7 +58,6 @@ const DraggableBoard = () => {
 
         // add columns to local state
         localStorage.setItem("columns", JSON.stringify(columns));
-        console.log(columns)
 
         setData({
           columns: columns,
@@ -66,18 +69,21 @@ const DraggableBoard = () => {
     } finally {
       setLoading(false);
     }
-  }, [api_provider]);
+  }, [api_provider, isLoggedIn]);
 
   useEffect(() => {
-    fetchLists();
-  }, [fetchLists]);
+    if (isLoggedIn) {
+      fetchLists();
+    } else {
+      console.log("User not logged in, skipping fetchLists.");
+    }
+  }, [fetchLists, isLoggedIn]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
   const onDragEnd = async (result) => {
-    console.log(result); // Log the result object
     const { destination, source, draggableId, type } = result;
     // If there is no destination
     if (!destination) {

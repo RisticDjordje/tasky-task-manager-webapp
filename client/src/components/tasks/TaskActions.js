@@ -30,7 +30,6 @@ const TaskActions = ({ task, onUpdateLists, onSubtaskAdded }) => {
     setOpenMoveDialog(false);
   };
 
-
   const handleDeleteTask = async () => {
     try {
       await api.delete(`/tasks/${task.id}/delete`);
@@ -72,7 +71,7 @@ const TaskActions = ({ task, onUpdateLists, onSubtaskAdded }) => {
 
   return (
     <>
-        <IconButton onClick={handleOpenMoveDialog} aria-label="Move task">
+      <IconButton onClick={handleOpenMoveDialog} aria-label="Move task">
         <MoveIcon />
       </IconButton>
       <IconButton onClick={handleDeleteTask} aria-label="Delete task">
@@ -108,12 +107,12 @@ const TaskActions = ({ task, onUpdateLists, onSubtaskAdded }) => {
         </DialogActions>
       </Dialog>
 
-<MoveTask
-  open={openMoveDialog}
-  onClose={handleCloseMoveDialog}
-  task={task}
-  fetchLists={onUpdateLists} // Pass the method to update lists after moving task
-/>
+      <MoveTask
+        open={openMoveDialog}
+        onClose={handleCloseMoveDialog}
+        task={task}
+        fetchLists={onUpdateLists} // Pass the method to update lists after moving task
+      />
     </>
   );
 };

@@ -50,12 +50,13 @@ function AddList({ onUpdateLists }) {
           fullWidth
           error={!isNameValid}
           helperText={!isNameValid ? "List name cannot be empty" : ""}
+          sx={{ height: 56 }}
         />
         <Button
           variant="contained"
           color="primary"
           type="submit"
-          style={{ marginLeft: "1rem", height: "100%" }}
+          sx={{ marginLeft: "2%", height: 56 }}
         >
           Add List
         </Button>
