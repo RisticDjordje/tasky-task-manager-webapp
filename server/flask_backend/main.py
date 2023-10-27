@@ -19,6 +19,15 @@ app.secret_key = "test"
 
 @login_manager.user_loader
 def load_user(id):
+    """
+    Load a user from the database given their ID.
+
+    Args:
+        id (int): The ID of the user to load.
+
+    Returns:
+        User: The user object associated with the given ID.
+    """
     return db.session.get(Users, id)
 
 

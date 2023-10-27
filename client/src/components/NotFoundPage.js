@@ -3,6 +3,10 @@ import { Typography, Button, Container } from "@mui/material";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Renders a page with a 404 error message and a button to navigate to the homepage.
+ * @returns {JSX.Element} JSX element containing the 404 error page.
+ */
 const NotFoundPage = () => {
   const navigate = useNavigate();
 

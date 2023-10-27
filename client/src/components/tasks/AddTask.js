@@ -2,10 +2,21 @@ import React, { useState } from "react";
 import { useApi } from "../../contexts/ApiProvider";
 import { TextField, Button, Box } from "@mui/material";
 
+/**
+ * Renders a form to add a new task to a list.
+ * @param {Object} props - The component props.
+ * @param {Function} props.onUpdateLists - The function to update the lists.
+ * @param {string} props.listID - The ID of the list to add the task to.
+ * @returns {JSX.Element} - The JSX element for the AddTaskForm component.
+ */
 function AddTaskForm({ onUpdateLists, listID }) {
   const [taskName, setTaskName] = useState("");
   const [isNameValid, setNameValid] = useState(true);
 
+  /**
+   * Updates the task name state when the input value changes.
+   * @param {Object} e - The event object.
+   */
   const handleTaskNameChange = (e) => {
     setNameValid(true);
     setTaskName(e.target.value);
@@ -13,6 +24,9 @@ function AddTaskForm({ onUpdateLists, listID }) {
 
   const api_provider = useApi();
 
+  /**
+   * Sends a POST request to add a new task to the list.
+   */
   async function addTask() {
     if (!taskName.trim()) {
       setNameValid(false); // Set the validation state to false
@@ -40,6 +54,10 @@ function AddTaskForm({ onUpdateLists, listID }) {
     }
   }
 
+  /**
+   * Handles the form submit event.
+   * @param {Object} e - The event object.
+   */
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent the default form submit action (page refresh)
     addTask();

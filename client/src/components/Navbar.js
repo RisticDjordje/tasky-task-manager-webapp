@@ -12,12 +12,19 @@ import {
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { AuthContext } from "../contexts/AuthContext";
 
+/**
+ * Navbar component that displays the app title, user welcome message, and authentication buttons.
+ * @returns {JSX.Element} JSX element containing the Navbar component.
+ */
 const Navbar = () => {
   const { username, isLoggedIn, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Adjust 'sm' as needed
 
+  /**
+   * Function that handles the logout process by calling the logout function and navigating to the login page.
+   */
   const handleLogout = () => {
     logout();
     navigate("/login");

@@ -6,7 +6,7 @@
   <h1>Tasky - Task Manager Kanban Board</h1>
   
   <p>
-    Coming soon
+    <strong>Tasky is a task manager app that upgrades the funcationality offered by Trello. It allows users to create lists, tasks and an infinite number of subtasks. </strong>
   </p>
 
 ---  
@@ -23,18 +23,6 @@
 </p> 
 </div> 
 
----
-<!--
-<h4>
-    <a href="https://github.com/Louis3797/awesome-readme-template/">View Demo</a>
-  <span> · </span>
-    <a href="https://github.com/Louis3797/awes  ome-readme-template">Documentation</a>
-  <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Report Bug</a>
-  <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Request Feature</a>
-  </h4>
--->
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -60,18 +48,6 @@
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 <br>
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
-
-This project has 2 parts: 
-1. **Client**: 
-   - Android app that allows users to connect to the *server*, log-in into several accounts, choose a match, choose an offer, see what funds they currently have on their accounts and place an *instant* live bet on all of their account *simultaneuously*.
-2. **Server**: 
-    - Highly-scalable server that allows dozens of users to connect. 
-    - Listens to *client* signals to log-in, choose a match/offer, place bets and many more.
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<br>
 
 <!-- BUILT WITH -->
 ## Built With
@@ -96,10 +72,11 @@ This project has 2 parts:
 - [x] Users can delete, change the name of the list all of which will be saved in the backend.
 - [x] Users can reorder lists and that order will be saved.
 - [x] In each list, users can add new tasks, which are saved in the backend. Users can add as many tasks as they want. 
-- [x] Each task can have as many subtasks as the user wants. Each of these subtasks can have their own subsubtasks, and so on. The can be as deep as the user wants. 
+- [x] Each task can have as many subtasks as the user wants. Each of these subtasks can have their own subsubtasks, and so on. This can be as deep as the user wants. 
 - [x] Users can hide or show any of these layers of subtasks in an intuitive way (shown by the accordion)
 - [x] Users can checkmark a task to indicate that it is completed. This will be saved in the backend. 
-- [x] Implemented detailed recursive task logic that goes through the task tree. If all subtasks of a task are completed, the task will be automatically checkmarked. Vice versa, if you uncheck a subtask of a task, the task will be unchecked. If the user moves an unchecked task to another list and its former parent task now has all of its subtasks completed, the parent task will be automatically checkmarked. All of this will recursively be bubbled up or down for all parent and child tasks. I have decided that if the user marks a task as completed its children won't be marked as complete. The reason for this is that if the user checkmarks the master task as completed by accident and wants to revert back the decision, I don't want to forget how the subtasks were previously checkmarked.
+- [x] Implemented detailed recursive task logic that goes through the task tree to ensure completed logic is working correctly.<details><summary>Click to expand</summary>
+  If all subtasks of a task are completed, the task will be automatically checkmarked. Vice versa, if you uncheck a subtask of a task, the task will be unchecked. If the user moves an unchecked task to another list and its former parent task now has all of its subtasks completed, the parent task will be automatically checkmarked. All of this will recursively be bubbled up or down for all parent and child tasks. I have decided that if the user marks a task as completed its children won't be marked as complete. The reason for this is that if the user checkmarks the master task as completed by accident and wants to revert back the decision, I don't want to forget how the subtasks were previously checkmarked.
 - [x] Users can change task names, delete tasks and move them to other lists. All of these changes will be saved in the backend. Moving a task or a subtask to another list will move it to the bottom of the list and will make it a main task.
 - [x] Added feature that shows how many of the tasks are completed in a list. This is shown in the list header. It will be colored green if all tasks are completed.
 - [x] Implemented comprehensive user authorization and authentication. Users can only see their own lists and tasks. They can't see other users' lists and tasks. They can not access certain pages without being logged in.

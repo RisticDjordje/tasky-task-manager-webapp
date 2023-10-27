@@ -39,6 +39,10 @@ const StyledApp = styled("div")({
   },
 });
 
+/**
+ * The main component of the To-Do App.
+ * @returns {JSX.Element} The App component.
+ */
 const App = () => {
   const [data, setData] = useState({
     tasks: {},

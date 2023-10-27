@@ -8,6 +8,12 @@ bp_task = Blueprint("task", __name__)
 # post a new task to the database
 @bp_task.route("/add_task", methods=["POST"])
 def add_task():
+    """
+    Adds a new task to the database.
+
+    Returns:
+        A JSON response containing a success or failure message and a status code.
+    """
     success_message = "Successfully added task to the database."
     failure_message = "Failed to add task to the database."
     success_status = 200
@@ -46,6 +52,12 @@ def update_task(task_id):
 
     Raises:
         Exception: If there was an error updating the task in the database.
+
+    Description:
+        This function updates a task in the database with the given task_id. The function takes in the task_id as an argument and uses it to retrieve the task from the database. The function then updates the task with the new data provided in the request JSON. If the task is marked as completed and has a parent task, the function checks if all the parent task's subtasks are completed. If they are, the parent task is also marked as completed. If the task is marked as not completed and has a parent task, the function marks the parent task as not completed. The function returns a JSON response with a success message and status code if the task was successfully updated, or a failure message and 400 status code if the task failed to update.
+
+    Example:
+        To update a task with id 1, make a PUT request to the endpoint '/tasks/1' with the new task data in the request JSON.
     """
     success_message = f"Successfully updated task with id {task_id} in the database."
     failure_message = f"Failed to update task with id {task_id} in the database."
@@ -61,6 +73,17 @@ def update_task(task_id):
         # if the task is completed and the task has a parent task, then go through all the parents subtasks and check if they are all completed.
         # if they are all completed, then set the parent task to completed
         def check_parent_completion(task):
+            """
+            Recursively checks if all subtasks of a parent task are completed.
+            If all subtasks are completed, sets the parent task as completed.
+            If the parent task has a parent, recursively checks the parent task.
+            
+            Args:
+            - task: A Tasks object representing the task to check completion for.
+            
+            Returns:
+            - None
+            """
             parent_task = Tasks.query.get(task.parent_id)
             all_subtasks_completed = True
             for subtask in parent_task.subtasks:
@@ -73,6 +96,11 @@ def update_task(task_id):
                     check_parent_completion(parent_task)
 
         def check_parent_not_completed(task):
+            """
+            Recursively checks if the parent task of a given task is completed.
+            If the parent task is completed, it sets its 'is_completed' attribute to False.
+            If the parent task has a parent task, it recursively checks that task as well.
+            """
             parent_task = Tasks.query.get(task.parent_id)
             parent_task.is_completed = False
             if parent_task.parent_id is not None:
@@ -96,6 +124,16 @@ def update_task(task_id):
 @bp_task.route("/tasks/<task_id>/delete", methods=["DELETE"])
 @login_required
 def delete_task(task_id):
+    """
+    Deletes a task with the given task_id from the database.
+
+    Args:
+        task_id (int): The id of the task to be deleted.
+
+    Returns:
+        A JSON response containing a success message and a success status code (200) if the task was successfully deleted.
+        A JSON response containing a failure message and a failure status code (400) if the task deletion failed.
+    """
     success_message = f"Successfully deleted task with id {task_id} from the database."
     failure_message = f"Failed to delete task with id {task_id} from the database."
     success_status = 200
@@ -117,6 +155,15 @@ def delete_task(task_id):
 # add subtask to a task in the database
 @bp_task.route("/tasks/<task_id>/add_subtask", methods=["POST"])
 def add_subtask_to_task(task_id):
+    """
+    Adds a subtask to a task with the given task_id.
+
+    Args:
+        task_id (int): The id of the task to add a subtask to.
+
+    Returns:
+        tuple: A tuple containing a JSON response with a success or failure message and a status code.
+    """
     success_message = (
         f"Successfully added subtask to task with id {task_id} in the database."
     )
@@ -165,9 +212,17 @@ def move_task(task_id):
     success_status = 200
 
     def check_parent_completion(task):
+        """
+        Recursively checks if all subtasks of a parent task are completed.
+        If all subtasks are completed, the parent task is marked as completed.
+        If the parent task has a parent task, the function is called again on the parent task.
+        
+        Args:
+            task (Tasks): The task to check for completion.
+        """
         parent_task = Tasks.query.get(task.parent_id)
         all_subtasks_completed = True
-        # if all subtasks are completed except the task 
+        # if all subtasks are completed except the task
         for subtask in parent_task.subtasks:
             if not subtask.is_completed and subtask.id != task.id:
                 all_subtasks_completed = False
@@ -176,7 +231,6 @@ def move_task(task_id):
             parent_task.is_completed = True
             if parent_task.parent_id is not None:
                 check_parent_completion(parent_task)
-
 
     try:
         # get the task id from the url
@@ -201,8 +255,7 @@ def move_task(task_id):
             db.session.commit()
             print(f"User {current_user.username} moved task from one list to another. ")
             return jsonify({"message": success_message}), success_status
-        
-        
+
         else:
             return jsonify({"message": "Task is already in this list."}), success_status
 

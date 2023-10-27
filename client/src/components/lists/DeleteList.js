@@ -3,6 +3,13 @@ import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useApi } from "../../contexts/ApiProvider";
 
+/**
+ * Renders a delete button for a list item.
+ * @param {Object} props - The component props.
+ * @param {string} props.list_id - The ID of the list to delete.
+ * @param {Function} props.onUpdateLists - The function to call after deleting the list.
+ * @returns {JSX.Element} - The delete button component.
+ */
 const DeleteList = ({ list_id, onUpdateLists }) => {
   const api_provider = useApi();
 

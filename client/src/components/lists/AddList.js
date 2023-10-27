@@ -2,10 +2,20 @@ import React, { useState } from "react";
 import { useApi } from "../../contexts/ApiProvider";
 import { TextField, Button, Box } from "@mui/material";
 
+/**
+ * Renders a form to add a new list.
+ * @param {Object} props - The component props.
+ * @param {Function} props.onUpdateLists - The function to call when a new list is added.
+ * @returns {JSX.Element} - The JSX element representing the component.
+ */
 function AddList({ onUpdateLists }) {
   const [listName, setListName] = useState("");
   const [isNameValid, setNameValid] = useState(true);
 
+  /**
+   * Handles changes to the list name input field.
+   * @param {Object} e - The event object.
+   */
   const handleListNameChange = (e) => {
     setNameValid(true);
     setListName(e.target.value);
@@ -13,6 +23,10 @@ function AddList({ onUpdateLists }) {
 
   const api_provider = useApi();
 
+  /**
+   * Adds a new list to the database.
+   * @param {Object} e - The event object.
+   */
   async function addList(e) {
     e.preventDefault();
 

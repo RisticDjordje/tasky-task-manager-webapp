@@ -18,8 +18,6 @@ const StyledAccordion = styled(Accordion)({
   "&:not(:last-child)": {
     marginBottom: "5px",
   },
-  
-
 });
 
 const StyledAccordionSummary = styled(AccordionSummary)({
@@ -27,9 +25,8 @@ const StyledAccordionSummary = styled(AccordionSummary)({
   borderBottom: "1px solid #ccc",
   display: "flex",
   alignItems: "center",
-  padding: "6px 12px", // Reduced padding for a more compact look
-  height: "3.7rem", // Optional: Adjust height for better spacing
-
+  padding: "6px 12px",
+  height: "3.7rem",
 });
 
 const TaskTitleContainer = styled("div")({
@@ -38,15 +35,23 @@ const TaskTitleContainer = styled("div")({
   flex: 1,
   cursor: "pointer",
   fontSize: "0.8rem",
-  margin: "1 5px", // Optional: Adjust margin for better spacing
+  margin: "1 5px", 
 });
 
 const StyledAccordionDetails = styled(AccordionDetails)({
   backgroundColor: "#e0e7ec",
-  padding: "0.5rem", // Optional: Adjust padding for better spacing
+  padding: "0.5rem",
 });
 
+/**
+ * A component that displays a task and its subtasks in an accordion format.
+ * @param {Object} props - The component props.
+ * @param {Object} props.task - The task to display.
+ * @param {Function} props.onUpdateLists - A function to update the task lists.
+ * @returns {JSX.Element} - The JSX element for the task accordion.
+ */
 const TaskAccordion = ({ task, onUpdateLists }) => {
+  // Component state
   const [isEditing, setIsEditing] = useState(false);
   const [newTaskName, setNewTaskName] = useState(task.name);
   const [expanded, setExpanded] = useState(false);
@@ -54,6 +59,12 @@ const TaskAccordion = ({ task, onUpdateLists }) => {
   const hasSubtasks = task.subtasks && task.subtasks.length > 0;
   const api = useApi();
 
+  /**
+   * Handles the checkbox change event for a task.
+   * @param {number} taskId - The ID of the task.
+   * @param {boolean} newStatus - The new status of the task.
+   * @returns {Promise<void>} - A promise that resolves when the task is updated.
+   */
   const handleCheckboxChange = async (taskId, newStatus) => {
     try {
       await api.patch("/tasks/" + taskId + "/update", {
@@ -68,6 +79,10 @@ const TaskAccordion = ({ task, onUpdateLists }) => {
     }
   };
 
+  /**
+   * Handles the edit task event.
+   * @returns {Promise<void>} - A promise that resolves when the task is updated.
+   */
   const handleEditTask = async () => {
     if (newTaskName.trim().length === 0) {
       console.warn("Task name cannot be empty.");
@@ -92,6 +107,10 @@ const TaskAccordion = ({ task, onUpdateLists }) => {
     }
   };
 
+  /**
+   * Sets the accordion to expanded state when a new subtask is added.
+   * @returns {void}
+   */
   useEffect(() => {
     if (newSubtaskAdded) {
       setExpanded(true);
@@ -99,10 +118,19 @@ const TaskAccordion = ({ task, onUpdateLists }) => {
     }
   }, [newSubtaskAdded]);
 
+  /**
+   * Sets the new subtask added state to true.
+   * @returns {void}
+   */
   const onSubtaskAdded = () => {
     setNewSubtaskAdded(true);
   };
 
+  /**
+   * Toggles the accordion state.
+   * @param {Object} e - The event object.
+   * @returns {void}
+   */
   const toggleAccordion = (e) => {
     e.stopPropagation();
     if (hasSubtasks) {
@@ -110,6 +138,7 @@ const TaskAccordion = ({ task, onUpdateLists }) => {
     }
   };
 
+  // Component rendering
   return (
     <StyledAccordion expanded={expanded && hasSubtasks}>
       <StyledAccordionSummary

@@ -14,6 +14,10 @@ const Container = styled("div")({
   width: "100%",
 });
 
+/**
+ * DraggableBoard component that displays a drag-and-drop board of lists and tasks.
+ * @returns {JSX.Element} The DraggableBoard component.
+ */
 const DraggableBoard = () => {
   const api_provider = useApi();
   const navigate = useNavigate();
@@ -31,6 +35,15 @@ const DraggableBoard = () => {
     columnOrder: [],
   });
 
+  /**
+   * Fetches the lists from the API and updates the local state with the fetched data.
+   * @function
+   * @async
+   * @name fetchLists
+   * @param {Object} api_provider - The API provider object used to make HTTP requests.
+   * @param {boolean} isLoggedIn - A boolean indicating whether the user is logged in or not.
+   * @returns {Promise<void>}
+   */
   const fetchLists = useCallback(async () => {
     if (!isLoggedIn) {
       console.log("User not logged in, skipping fetchLists.");
@@ -83,6 +96,16 @@ const DraggableBoard = () => {
     return <div>Loading...</div>;
   }
 
+  /**
+   * Function that handles the end of a drag event.
+   * @async
+   * @param {Object} result - The result object from the drag event.
+   * @param {Object} result.destination - The destination object of the drag event.
+   * @param {Object} result.source - The source object of the drag event.
+   * @param {string} result.draggableId - The ID of the draggable element.
+   * @param {string} result.type - The type of the draggable element.
+   * @returns {void}
+   */
   const onDragEnd = async (result) => {
     const { destination, source, draggableId, type } = result;
     // If there is no destination

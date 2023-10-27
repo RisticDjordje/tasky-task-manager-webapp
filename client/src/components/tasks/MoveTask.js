@@ -16,6 +16,15 @@ import {
 } from "@mui/material";
 import { useApi } from "../../contexts/ApiProvider";
 
+/**
+ * Renders a dialog that allows the user to move a task to a different list.
+ * @param {Object} props - The component props.
+ * @param {Object} props.task - The task to be moved.
+ * @param {boolean} props.open - Whether the dialog is open or not.
+ * @param {Function} props.onClose - The function to call when the dialog is closed.
+ * @param {Function} props.fetchLists - The function to call to fetch the updated list of tasks.
+ * @returns {JSX.Element} - The MoveTask component.
+ */
 const MoveTask = ({ task, open, onClose, fetchLists }) => {
   const [lists, setLists] = useState([]);
   const api = useApi();
@@ -29,13 +38,18 @@ const MoveTask = ({ task, open, onClose, fetchLists }) => {
     }
   }, [open, task.list_id]); // Added task.list_id dependency
 
+  /**
+   * Moves the task to the specified list.
+   * @param {number} targetListId - The ID of the list to move the task to.
+   * @returns {Promise<void>} - A Promise that resolves when the task has been moved.
+   */
   const handleMoveTask = async (targetListId) => {
     try {
       const response = await api.patch(`/tasks/${task.id}/move`, {
         list_id: targetListId,
       });
       if (response.ok) {
-        fetchLists(); // Assuming fetchLists will update the parent component's state.
+        fetchLists(); 
         onClose();
       } else {
         console.error("Error moving task:", response.body);
@@ -45,10 +59,9 @@ const MoveTask = ({ task, open, onClose, fetchLists }) => {
     }
   };
 
-
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>Move Task to...</DialogTitle>
+      <DialogTitle>Move task to...</DialogTitle>
       <DialogContent dividers>
         <List>
           {lists.map((list, index) => (
@@ -59,17 +72,18 @@ const MoveTask = ({ task, open, onClose, fetchLists }) => {
                     <Typography variant="h6">{list.name}</Typography>
                   </CardContent>
                 </CardActionArea>
-                <IconButton 
-                  edge="end" 
-                  color="inherit" 
+                <IconButton
+                  edge="end"
+                  color="inherit"
                   onClick={() => handleMoveTask(list.id)}
-                  style={{ position: 'absolute', right: 10, top: 10 }}
+                  style={{ position: "absolute", right: 10, top: 10 }}
                 >
-                  <Tooltip title="Move Task Here">
-                  </Tooltip>
+                  <Tooltip title="Move Task Here"></Tooltip>
                 </IconButton>
               </Card>
-              {index < lists.length - 1 && <Divider style={{ margin: "8px 0" }} />}
+              {index < lists.length - 1 && (
+                <Divider style={{ margin: "8px 0" }} />
+              )}
             </React.Fragment>
           ))}
         </List>

@@ -11,6 +11,14 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import { useApi } from "../../contexts/ApiProvider";
 
+/**
+ * EditList component allows the user to edit the name of a list.
+ * @param {Object} props - The component props.
+ * @param {string} props.columnId - The ID of the list to be edited.
+ * @param {string} props.initialName - The initial name of the list to be edited.
+ * @param {Function} props.onUpdateLists - The function to be called after the list is updated.
+ * @returns {JSX.Element} - The EditList component.
+ */
 const EditList = ({ columnId, initialName, onUpdateLists }) => {
   const [isEditDialogOpen, setEditDialogOpen] = useState(false);
   const [editedName, setEditedName] = useState(initialName);
@@ -18,14 +26,28 @@ const EditList = ({ columnId, initialName, onUpdateLists }) => {
 
   const api_provider = useApi();
 
+  /**
+   * Sets the state of the edit dialog to open when called.
+   * @function
+   * @returns {void}
+   */
   const handleOpenEditDialog = () => {
     setEditDialogOpen(true);
   };
 
+  /**
+   * Closes the edit dialog by setting the state of `editDialogOpen` to false.
+   */
   const handleCloseEditDialog = () => {
     setEditDialogOpen(false);
   };
 
+  /**
+   * Handles the confirmation of editing a list name.
+   * If the edited name is empty or just spaces, sets the validation state to false.
+   * Otherwise, sends a PATCH request to update the list name and calls onUpdateLists() if successful.
+   * Closes the edit dialog regardless of the outcome.
+   */
   const handleConfirmEdit = async () => {
     if (!editedName.trim()) {
       // Check if name is just empty or spaces

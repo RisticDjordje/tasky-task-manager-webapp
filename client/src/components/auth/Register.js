@@ -10,7 +10,14 @@ import {
 import { useApi } from "../../contexts/ApiProvider";
 import AlertMessage from "./AlertMessage";
 
+/**
+ * Register component for user registration.
+ * @returns {JSX.Element} JSX element containing the registration form.
+ */
 const Register = () => {
+  /**
+   * State variables for form data and alert message.
+   */
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -24,21 +31,40 @@ const Register = () => {
     severity: "error",
   });
 
-  const api = useApi(); // Using the ApiProvider context
+  /**
+   * ApiProvider context for making API requests.
+   */
+  const api = useApi();
 
+  /**
+   * Event handler for input change.
+   * @param {Object} e - Event object.
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  /**
+   * Function to trigger alert message.
+   * @param {string} message - Alert message.
+   * @param {string} severity - Severity of alert message.
+   */
   const triggerAlert = (message, severity) => {
     setAlert({ key: Date.now(), open: true, message, severity });
   };
 
+  /**
+   * Event handler for closing alert message.
+   */
   const handleCloseAlert = () => {
     setAlert({ ...alert, open: false });
   };
 
+  /**
+   * Event handler for form submission.
+   * @param {Object} e - Event object.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -69,6 +95,14 @@ const Register = () => {
     }
   };
 
+  /**
+   * Function to render text input field.
+   * @param {string} label - Label for input field.
+   * @param {string} name - Name of input field.
+   * @param {string} type - Type of input field.
+   * @param {boolean} autoFocus - Whether input field should be auto-focused.
+   * @returns {JSX.Element} JSX element containing the text input field.
+   */
   const renderTextField = (label, name, type = "text", autoFocus = false) => (
     <Grid item xs={12}>
       <TextField

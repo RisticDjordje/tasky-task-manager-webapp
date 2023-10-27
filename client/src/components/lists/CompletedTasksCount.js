@@ -9,6 +9,13 @@ const CountContainer = styled("div")({
   gap: "0.05rem",
 });
 
+/**
+ * Renders the count of completed tasks and a check circle icon.
+ * @param {Object[]} tasks - An array of task objects.
+ * @param {string} tasks[].name - The name of the task.
+ * @param {boolean} tasks[].is_completed - Whether the task is completed or not.
+ * @returns {JSX.Element} - The completed tasks count component.
+ */
 const CompletedTasksCount = ({ tasks }) => {
   let completedCount = 0;
   for (const task of tasks) {

@@ -4,6 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
+/**
+ * Provides authentication context for the application.
+ * @param {Object} props - Component props.
+ * @param {React.ReactNode} props.children - Child components to be wrapped by the provider.
+ * @returns {JSX.Element} - JSX element.
+ */
 export const AuthProvider = ({ children }) => {
   const [username, setUsername] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,6 +26,10 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  /**
+   * Logs in the user.
+   * @param {string} username - The username of the user.
+   */
   const login = (username) => {
     setUsername(username);
     setIsLoggedIn(true);
@@ -27,6 +37,9 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("isLoggedIn", "true");
   };
 
+  /**
+   * Logs out the user.
+   */
   const logout = async () => {
     try {
       const response = await api.post("/logout"); // Send a POST request to the backend using the api object

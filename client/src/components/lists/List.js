@@ -22,7 +22,7 @@ const Container = styled("div")({
 const TasksContainer = styled("div")({
   flexGrow: 1,
   overflowY: "auto",
-  padding: "0.5rem", 
+  padding: "0.5rem",
   // reduce t
 });
 
@@ -47,6 +47,16 @@ const Title = styled("h3")({
 
 const ButtonContainer = styled("div")({});
 
+/**
+ * Renders a single list component with its tasks and associated actions.
+ * @param {Object} props - The component props.
+ * @param {number} props.id - The unique identifier of the list.
+ * @param {string} props.name - The name of the list.
+ * @param {Array} props.tasks - The array of tasks associated with the list.
+ * @param {number} props.index - The index of the list in the list of draggable components.
+ * @param {function} props.onUpdateLists - The function to update the list of lists.
+ * @returns {JSX.Element} - The JSX element representing the list component.
+ */
 const List = ({ id, name, tasks, index, onUpdateLists }) => {
   return (
     <Draggable draggableId={id.toString()} index={index}>

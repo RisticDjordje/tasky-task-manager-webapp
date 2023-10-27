@@ -9,6 +9,12 @@ bp_auth = Blueprint("auth", __name__)
 
 @bp_auth.route("/register", methods=["POST"])
 def register():
+    """
+    Registers a new user with the provided username, email, and password.
+
+    Returns:
+        A JSON response containing a success or error message.
+    """
     try:
         data = request.get_json()
         username = data["username"]
@@ -35,6 +41,12 @@ def register():
 
 @bp_auth.route("/login", methods=["POST"])
 def login():
+    """
+    Logs in a user with the provided login credentials.
+
+    Returns:
+        A JSON response containing a success or error message and the user's username.
+    """
     try:
         data = request.get_json()
         login = data["login"]  # can be either username or email
@@ -62,6 +74,13 @@ def login():
 @bp_auth.route("/logout", methods=["POST"])
 @login_required
 def logout():
+    """
+    Logs out the current user and returns a JSON response with a success message.
+
+    Returns:
+        A JSON response with a success message and a status code of 200.
+        If an error occurs during logout, returns a JSON response with an error message and a status code of 400.
+    """
     try:
         print(f"User {current_user.username} logged out successfully!")
         logout_user()

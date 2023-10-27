@@ -9,6 +9,14 @@ bp_list = Blueprint("list", __name__)
 @bp_list.route("/lists", methods=["GET"])
 @login_required
 def get_all_lists():
+    """
+    Retrieves all lists from the database for the authenticated user.
+
+    Returns:
+        A JSON response containing a success message and a list of all the user's lists.
+        If the user is not authenticated, returns a JSON response with an error message and a 401 status code.
+        If there is an error retrieving the lists, returns a JSON response with an error message and a 400 status code.
+    """
     if not current_user.is_authenticated:
         print("Non-authenticated user tried to fetch all lists")
         return jsonify({"message": "User is not authenticated"}), 401
@@ -40,6 +48,14 @@ def get_all_lists():
 @bp_list.route("/add_list", methods=["POST"])
 @login_required
 def add_list():
+    """
+    Adds a new list to the database for the authenticated user.
+
+    Returns:
+        A JSON response with a success message and status code 200 if the list is added successfully.
+        A JSON response with an error message and status code 400 if there is an error adding the list.
+        A JSON response with an error message and status code 401 if the user is not authenticated.
+    """
     if not current_user.is_authenticated:
         print("Non-authenticated user tried to add a new list")
         return jsonify({"message": "User is not authenticated"}), 401
@@ -71,6 +87,14 @@ def add_list():
 @bp_list.route("/update_order", methods=["POST"])
 @login_required
 def update_order():
+    """
+    Updates the order indexes of lists in the database.
+
+    Returns:
+        A JSON response with a success message and a 200 status code if the update is successful.
+        A JSON response with an error message and a 400 status code if the update fails.
+        A JSON response with a message indicating that the user is not authenticated and a 401 status code if the user is not authenticated.
+    """
     if not current_user.is_authenticated:
         print(
             "Non-authenticated user tried to update order indexes of lists in the database"
@@ -105,6 +129,15 @@ def update_order():
 # delete a list from the database
 @bp_list.route("/delete_list/<list_id>", methods=["DELETE"])
 def delete_list(list_id):
+    """
+    Deletes a list with the given list_id from the database.
+
+    Args:
+        list_id (int): The id of the list to be deleted.
+
+    Returns:
+        A JSON response containing a success or failure message and a status code.
+    """
     success_message = f"Successfully deleted list with id {list_id}."
     failure_message = f"Failed to delete list with id {list_id}."
     success_status = 200
@@ -138,6 +171,12 @@ def delete_list(list_id):
 @bp_list.route("/update_list_name", methods=["PATCH"])
 @login_required
 def update_list_name():
+    """
+    Updates the name of a list in the database.
+
+    Returns:
+        A JSON response with a success or failure message and status code.
+    """
     if not current_user.is_authenticated:
         print("Non-authenticated user tried to update list name in the database")
         return jsonify({"message": "User is not authenticated"}), 401

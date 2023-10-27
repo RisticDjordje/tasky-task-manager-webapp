@@ -12,6 +12,10 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import AlertMessage from "./AlertMessage";
 
+/**
+ * Login component that allows users to log in to the application.
+ * @returns {JSX.Element} Login form component.
+ */
 const Login = () => {
   const [formData, setFormData] = useState({
     login: "",
@@ -29,15 +33,27 @@ const Login = () => {
   const api = useApi();
   const { login, isLoggedIn } = useContext(AuthContext); // <-- Destructure isLoggedIn from context
 
+  /**
+   * Handles changes to the form data.
+   * @param {Object} e - The event object.
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  /**
+   * Triggers an alert message.
+   * @param {string} message - The message to display in the alert.
+   * @param {string} severity - The severity of the alert (error, warning, info, success).
+   */
   const triggerAlert = (message, severity) => {
     setAlert({ key: Date.now(), open: true, message, severity });
   };
 
+  /**
+   * Closes the alert message.
+   */
   const handleCloseAlert = () => {
     setAlert({ ...alert, open: false });
   };
@@ -48,6 +64,10 @@ const Login = () => {
     }
   }, [isLoggedIn, navigate]);
 
+  /**
+   * Handles form submission.
+   * @param {Object} e - The event object.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
