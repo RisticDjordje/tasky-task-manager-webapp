@@ -28,7 +28,7 @@
 <h4>
     <a href="https://github.com/Louis3797/awesome-readme-template/">View Demo</a>
   <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template">Documentation</a>
+    <a href="https://github.com/Louis3797/awes  ome-readme-template">Documentation</a>
   <span> · </span>
     <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Report Bug</a>
   <span> · </span>
@@ -44,6 +44,7 @@
     <li><a href="#about-the-project">About The Project</a></li>
     <li><a href="#built-with">Built With</a></li>
     <li><a href="#features">Features</a></li>
+    <li><a href='#installation'>Installation</a></li>
     <li><a href="#documentation">Documentation</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
@@ -76,17 +77,12 @@ This project has 2 parts:
 ## Built With
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Client
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-
-  ![React][React.js]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ![React][React.js]![javascript][javascript]![MUI](https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white)
   
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![javascript][javascript]
-  ![node.js][Node.js]
-  ![Socket.io](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)
-  <img src="https://a11ybadges.com/badge?logo=puppeteer" alt="puppeteer" width="94.5" height="28"/>
-   ![express.js][express.js]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)	![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
+
   
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -95,28 +91,54 @@ This project has 2 parts:
 <!-- USAGE EXAMPLES -->
 ## Features
 
-#### Client
-- [x] Realtime updates refecting the latest changes on betting websites.
-- [x] Ability to choose which "ip" address to connect to.
-- [x] Choose which account to connect to.
-- [x] Choose one of the matches currently available.
-- [x] Console to get instant updates from the server and other notifications.
-- [x] Ability to control the app only using volume up/down buttons.
-- [x] Ability to make the screen black and continue using the app.
-- [x] Sound notifications for the result of the bet.
-- [x] Check current available funds at each of your accounts.
-- [x] Ability to choose the live bet offer.
-- [x] Caching of previous choices (ip adress, username, match) to make the UX smoother.
+- [x] Register and log-in into their accounts. Input validation is added on both client and server side.
+- [x] Add new lists which are saved in the backend. Users can add as many lists as they want.
+- [x] Users can delete, change the name of the list all of which will be saved in the backend.
+- [x] Users can reorder lists and that order will be saved.
+- [x] In each list, users can add new tasks, which are saved in the backend. Users can add as many tasks as they want. 
+- [x] Each task can have as many subtasks as the user wants. Each of these subtasks can have their own subsubtasks, and so on. The can be as deep as the user wants. 
+- [x] Users can hide or show any of these layers of subtasks in an intuitive way (shown by the accordion)
+- [x] Users can checkmark a task to indicate that it is completed. This will be saved in the backend. 
+- [x] Implemented detailed recursive task logic that goes through the task tree. If all subtasks of a task are completed, the task will be automatically checkmarked. Vice versa, if you uncheck a subtask of a task, the task will be unchecked. If the user moves an unchecked task to another list and its former parent task now has all of its subtasks completed, the parent task will be automatically checkmarked. All of this will recursively be bubbled up or down for all parent and child tasks. I have decided that if the user marks a task as completed its children won't be marked as complete. The reason for this is that if the user checkmarks the master task as completed by accident and wants to revert back the decision, I don't want to forget how the subtasks were previously checkmarked.
+- [x] Users can change task names, delete tasks and move them to other lists. All of these changes will be saved in the backend. Moving a task or a subtask to another list will move it to the bottom of the list and will make it a main task.
+- [x] Added feature that shows how many of the tasks are completed in a list. This is shown in the list header. It will be colored green if all tasks are completed.
+- [x] Implemented comprehensive user authorization and authentication. Users can only see their own lists and tasks. They can't see other users' lists and tasks. They can not access certain pages without being logged in.
+- [x] The design is fully responsive for all devices.
 
-#### Server
-- [x] Highly-scalable allowing 16+ users to be connected simultaneusly.
-- [x] Fault-tolerant! If one of the processes/workers dies, another one automatically takes over the load and continues the processes.
-- [x] Full overview of every actions.
-- [x] Ability to turn the GUI on/off.
-- [x] Custom or random amount to place as a bet.
 <br><br>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- INSTALLATION -->
+
+## Installation
+
+
+1. Clone the repo
+   ```sh
+   git clone
+    ```
+#### Frontend
+2. Install NPM packages
+    ```sh
+    npm install
+    ```
+3. Run the app
+    ```sh
+    npm start
+    ```
+4. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+<br><br>  
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- DOCUMENTATION -->
+## Documentation
+
+#### Client
 
 
 
@@ -128,12 +150,6 @@ This project has 2 parts:
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
  -->
-
-
-
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 [contributors-shield]: https://img.shields.io/github/RisticDjordje/betting-bot-client-server.svg?style=for-the-badge
