@@ -43,7 +43,8 @@
 
 ## Demo
 
-![](https://github.com/RisticDjordje/betting-bot-client-server/blob/master/Media/demo/demo.gif)
+
+https://github.com/RisticDjordje/tasky-task-manager-kanban-board-webapp/assets/38117050/b14a177e-0807-4f68-a368-ebb82adde08e
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 <br>
