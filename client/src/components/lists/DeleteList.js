@@ -23,7 +23,7 @@ const DeleteList = ({ list_id, onUpdateLists }) => {
   }
 
   return (
-    <IconButton color="error" onClick={deleteList}>
+    <IconButton onClick={deleteList}>
       <DeleteIcon />
     </IconButton>
   );

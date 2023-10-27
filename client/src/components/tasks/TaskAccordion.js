@@ -14,6 +14,12 @@ const StyledAccordion = styled(Accordion)({
   border: "1px solid #ccc",
   backgroundColor: "#fff",
   boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
+  // add margin bottom if you are not the last child
+  "&:not(:last-child)": {
+    marginBottom: "5px",
+  },
+  
+
 });
 
 const StyledAccordionSummary = styled(AccordionSummary)({
@@ -22,7 +28,8 @@ const StyledAccordionSummary = styled(AccordionSummary)({
   display: "flex",
   alignItems: "center",
   padding: "6px 12px", // Reduced padding for a more compact look
-  height: "2.5rem", // Optional: Adjust height for better spacing
+  height: "3.7rem", // Optional: Adjust height for better spacing
+
 });
 
 const TaskTitleContainer = styled("div")({
@@ -31,7 +38,7 @@ const TaskTitleContainer = styled("div")({
   flex: 1,
   cursor: "pointer",
   fontSize: "0.8rem",
-  margin: "0 5px", // Optional: Adjust margin for better spacing
+  margin: "1 5px", // Optional: Adjust margin for better spacing
 });
 
 const StyledAccordionDetails = styled(AccordionDetails)({

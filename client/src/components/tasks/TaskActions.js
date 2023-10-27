@@ -8,6 +8,7 @@ import {
   DialogContentText,
   DialogActions,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
@@ -20,7 +21,6 @@ const TaskActions = ({ task, onUpdateLists, onSubtaskAdded }) => {
   const api = useApi();
   const [openDialog, setOpenDialog] = useState(false);
   const [subtaskName, setSubtaskName] = useState("");
-
   const [openMoveDialog, setOpenMoveDialog] = useState(false);
 
   const handleOpenMoveDialog = () => {
@@ -76,24 +76,30 @@ const TaskActions = ({ task, onUpdateLists, onSubtaskAdded }) => {
 
   return (
     <>
-      <SmallIconButton onClick={handleOpenDialog} aria-label="Add subtask">
-        <AddIcon />
-      </SmallIconButton>
-      <SmallIconButton
-        size="small"
-        onClick={handleOpenMoveDialog}
-        aria-label="Move task"
-      >
-        <MoveIcon />
-      </SmallIconButton>
-      <SmallIconButton onClick={handleDeleteTask} aria-label="Delete task">
-        <DeleteIcon />
-      </SmallIconButton>
+      <Tooltip title="Add Subtask">
+        <SmallIconButton onClick={handleOpenDialog} aria-label="Add subtask">
+          <AddIcon />
+        </SmallIconButton>
+      </Tooltip>
+      <Tooltip title="Move Task">
+        <SmallIconButton
+          size="small"
+          onClick={handleOpenMoveDialog}
+          aria-label="Move task"
+        >
+          <MoveIcon />
+        </SmallIconButton>
+      </Tooltip>
+      <Tooltip title="Delete Task">
+        <SmallIconButton onClick={handleDeleteTask} aria-label="Delete task">
+          <DeleteIcon />
+        </SmallIconButton>
+      </Tooltip>
 
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Add Subtask</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText style={{ marginBottom: "1rem" }}>
             Please enter the name for the new subtask.
           </DialogContentText>
           <TextField
@@ -120,7 +126,7 @@ const TaskActions = ({ task, onUpdateLists, onSubtaskAdded }) => {
         open={openMoveDialog}
         onClose={handleCloseMoveDialog}
         task={task}
-        fetchLists={onUpdateLists} // Pass the method to update lists after moving task
+        fetchLists={onUpdateLists}
       />
     </>
   );

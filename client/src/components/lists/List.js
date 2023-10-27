@@ -8,7 +8,7 @@ import TaskAccordion from "../tasks/TaskAccordion.js";
 import CompletedTasksCount from "./CompletedTasksCount";
 
 const Container = styled("div")({
-  margin: "1.5rem 0.8rem",
+  margin: "1.5rem 0.6rem",
   border: "2px solid #ddd",
   borderRadius: "5px",
   width: "25vw", // smaller width
@@ -22,7 +22,8 @@ const Container = styled("div")({
 const TasksContainer = styled("div")({
   flexGrow: 1,
   overflowY: "auto",
-  padding: "0.5rem", // reduced padding
+  padding: "0.5rem", 
+  // reduce t
 });
 
 const AddTaskContainer = styled("div")({

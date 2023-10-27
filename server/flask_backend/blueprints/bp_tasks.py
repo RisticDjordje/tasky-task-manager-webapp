@@ -72,8 +72,16 @@ def update_task(task_id):
                 if parent_task.parent_id is not None:
                     check_parent_completion(parent_task)
 
+        def check_parent_not_completed(task):
+            parent_task = Tasks.query.get(task.parent_id)
+            parent_task.is_completed = False
+            if parent_task.parent_id is not None:
+                check_parent_not_completed(parent_task)
+
         if task.is_completed and task.parent_id is not None:
             check_parent_completion(task)
+        elif not task.is_completed and task.parent_id is not None:
+            check_parent_not_completed(task)
         db.session.commit()
 
         print(f"User {current_user.username} updated a task. ")
@@ -156,6 +164,20 @@ def move_task(task_id):
     failure_message = f"Failed to move task with id {task_id} in the database."
     success_status = 200
 
+    def check_parent_completion(task):
+        parent_task = Tasks.query.get(task.parent_id)
+        all_subtasks_completed = True
+        # if all subtasks are completed except the task 
+        for subtask in parent_task.subtasks:
+            if not subtask.is_completed and subtask.id != task.id:
+                all_subtasks_completed = False
+                break
+        if all_subtasks_completed:
+            parent_task.is_completed = True
+            if parent_task.parent_id is not None:
+                check_parent_completion(parent_task)
+
+
     try:
         # get the task id from the url
         task = Tasks.query.get(task_id)
@@ -167,10 +189,20 @@ def move_task(task_id):
         if task.list_id != list_id:
             task.list_id = list_id
             task.task_depth = 0
+
+            # check if the task is not completed and if its current parent task is not None and is completed
+            # if so, then set the parent task to not completed
+            if not task.is_completed and task.parent_id is not None:
+                print(4)
+                check_parent_completion(task)
+
             task.parent_id = None
+
             db.session.commit()
             print(f"User {current_user.username} moved task from one list to another. ")
             return jsonify({"message": success_message}), success_status
+        
+        
         else:
             return jsonify({"message": "Task is already in this list."}), success_status
 

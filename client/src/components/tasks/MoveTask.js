@@ -5,10 +5,14 @@ import {
   DialogContent,
   DialogActions,
   List,
-  ListItem,
-  ListItemText,
   Button,
   Divider,
+  Card,
+  CardContent,
+  CardActionArea,
+  Typography,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
 import { useApi } from "../../contexts/ApiProvider";
 
@@ -41,17 +45,31 @@ const MoveTask = ({ task, open, onClose, fetchLists }) => {
     }
   };
 
+
   return (
-    <Dialog open={open} onClose={onClose} fullWidth>
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>Move Task to...</DialogTitle>
       <DialogContent dividers>
         <List>
           {lists.map((list, index) => (
             <React.Fragment key={list.id}>
-              <ListItem button onClick={() => handleMoveTask(list.id)}>
-                <ListItemText primary={list.name} />
-              </ListItem>
-              {index < lists.length - 1 && <Divider />}
+              <Card elevation={3}>
+                <CardActionArea onClick={() => handleMoveTask(list.id)}>
+                  <CardContent>
+                    <Typography variant="h6">{list.name}</Typography>
+                  </CardContent>
+                </CardActionArea>
+                <IconButton 
+                  edge="end" 
+                  color="inherit" 
+                  onClick={() => handleMoveTask(list.id)}
+                  style={{ position: 'absolute', right: 10, top: 10 }}
+                >
+                  <Tooltip title="Move Task Here">
+                  </Tooltip>
+                </IconButton>
+              </Card>
+              {index < lists.length - 1 && <Divider style={{ margin: "8px 0" }} />}
             </React.Fragment>
           ))}
         </List>

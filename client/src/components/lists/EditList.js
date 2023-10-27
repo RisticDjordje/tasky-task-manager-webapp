@@ -54,7 +54,7 @@ const EditList = ({ columnId, initialName, onUpdateLists }) => {
 
   return (
     <>
-      <IconButton color="primary" onClick={handleOpenEditDialog}>
+      <IconButton onClick={handleOpenEditDialog}>
         <EditIcon />
       </IconButton>
 
