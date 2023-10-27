@@ -6,7 +6,7 @@
   <h1>Tasky - Task Manager Kanban Board</h1>
   
   <p>
-    <strong>Tasky is a task manager app that upgrades the funcationality offered by Trello. It allows users to create lists, tasks and an infinite number of subtasks. </strong>
+    <strong>Tasky is a task manager app that upgrades the funcationality offered by Trello. It allows users to create lists, tasks, keep track of what is completed but also add as many subtasks, subsubtasks, etc. as they want. </strong>
   </p>
 
 ---
