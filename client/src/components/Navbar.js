@@ -1,13 +1,6 @@
 import React, { useContext } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  IconButton,
-  Avatar,
-} from "@mui/material";
+import { AppBar, Toolbar, Typography, Button, IconButton } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { AuthContext } from "../contexts/AuthContext";
 

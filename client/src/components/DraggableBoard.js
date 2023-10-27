@@ -5,7 +5,7 @@ import { useApi } from "../contexts/ApiProvider";
 import AddList from "./lists/AddList";
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthContext"; // <-- Import AuthContext
+import { AuthContext } from "../contexts/AuthContext";
 
 const Container = styled("div")({
   display: "flex",

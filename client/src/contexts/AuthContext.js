@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
-import { useApi } from "../contexts/ApiProvider"; // <-- Import useApi context
+import React, { createContext, useState, useEffect } from "react";
+import { useApi } from "../contexts/ApiProvider";
 import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
@@ -20,8 +20,8 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = (userData) => {
-    setUsername(userData);
+  const login = (username) => {
+    setUsername(username);
     setIsLoggedIn(true);
     localStorage.setItem("username", username);
     localStorage.setItem("isLoggedIn", "true");
@@ -32,12 +32,10 @@ export const AuthProvider = ({ children }) => {
       const response = await api.post("/logout"); // Send a POST request to the backend using the api object
 
       if (response.ok) {
-        console.log(response.body.message); // Log success message to console
         setUsername(null);
         setIsLoggedIn(false);
         localStorage.removeItem("username");
         localStorage.removeItem("isLoggedIn");
-        console.log("Logged out successfully");
         navigate("/login"); // <-- Redirect to login page after logging out
       } else {
         console.error(`Error logging out: ${response.body.message}`); // Log error message to console

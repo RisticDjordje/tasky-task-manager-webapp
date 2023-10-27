@@ -4,6 +4,7 @@ from flask_login import login_required, current_user
 
 bp_list = Blueprint("list", __name__)
 
+
 # get all the user lists from the database
 @bp_list.route("/lists", methods=["GET"])
 @login_required
@@ -14,7 +15,11 @@ def get_all_lists():
     failure_message = "Failed to retrieve all lists from the database."
     success_status = 200
     try:
-        lists = Lists.query.filter_by(user_id=current_user.id).order_by(Lists.order_index).all()
+        lists = (
+            Lists.query.filter_by(user_id=current_user.id)
+            .order_by(Lists.order_index)
+            .all()
+        )
         print("User retrieved all lists from the database")
         return (
             jsonify(
@@ -27,6 +32,7 @@ def get_all_lists():
         )
     except Exception as e:
         return jsonify({"message": f"{failure_message}. error is {e}"}), 400
+
 
 # post a new list to the database
 @bp_list.route("/add_list", methods=["POST"])
@@ -41,7 +47,12 @@ def add_list():
     try:
         list_data = request.get_json()
         user_id = current_user.id
-        new_list = Lists(name=list_data["name"], user_id = user_id, order_index=len(Lists.query.all()), tasks=[])
+        new_list = Lists(
+            name=list_data["name"],
+            user_id=user_id,
+            order_index=len(Lists.query.all()),
+            tasks=[],
+        )
         db.session.add(new_list)
         db.session.commit()
         print("User added a new list to the database")
@@ -65,7 +76,7 @@ def get_list(list_id):
         return jsonify({"message": success_message, "list": list.to_dict()}), status
     except Exception as e:
         return jsonify({"message": f"{failure_message}. error is {e}"}), 400
-    
+
 
 # update order indexes of lists in the database
 @bp_list.route("/update_order", methods=["POST"])
@@ -78,9 +89,11 @@ def update_order():
     success_status = 200
     print("User is updating order indexes of lists in the database")
     try:
-        list_data = request.get_json()["lists"] # format: [{"id": 1, "order_index": 0}, {"id": 2, "order_index": 1}]
+        list_data = request.get_json()[
+            "lists"
+        ]  # format: [{"id": 1, "order_index": 0}, {"id": 2, "order_index": 1}]
         for list in list_data:
-            list_id = list["id"] 
+            list_id = list["id"]
 
             list_order_index = int(list["order_index"])
             list_to_update = Lists.query.get(list_id)
@@ -91,7 +104,8 @@ def update_order():
     except Exception as e:
         print("Error updating order indexes of lists in the database: ", e)
         return jsonify({"message": f"{failure_message}. error is {e}"}), 400
-    
+
+
 # delete a list from the database
 @bp_list.route("/delete_list/<list_id>", methods=["DELETE"])
 def delete_list(list_id):
@@ -101,20 +115,19 @@ def delete_list(list_id):
 
     try:
         list_to_delete = Lists.query.get(list_id)
-        
+
         # Check if list exists
         if not list_to_delete:
             return jsonify({"message": f"No list found with id {list_id}."}), 404
-        
+
         # if list has tasks, delete them first (cascade)
         if list_to_delete.tasks:
             for task in list_to_delete.tasks:
                 db.session.delete(task)
 
-        
         db.session.delete(list_to_delete)
         db.session.commit()
-        
+
         print(f"User deleted list with id {list_id}.")
         return jsonify({"message": success_message}), success_status
     except Exception as e:

@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useApi } from "../../contexts/ApiProvider";
 import { AuthContext } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom"; // <-- Import Redirect
+import { useNavigate } from "react-router-dom";
 import AlertMessage from "./AlertMessage";
 
 const Login = () => {
@@ -53,8 +53,7 @@ const Login = () => {
     try {
       const response = await api.post("/login", formData);
       if (response.ok) {
-        login(response.body.user); // Update login state with user data
-        console.log(response.body.message);
+        login(response.body.username); // Update login state with user data
         triggerAlert(
           "Login successful! Redirecting you to home page",
           "success"

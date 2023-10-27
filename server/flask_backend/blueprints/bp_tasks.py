@@ -62,12 +62,23 @@ def add_subtask():
 @bp_task.route("/tasks/<task_id>/update", methods=["PATCH"])
 @login_required
 def update_task(task_id):
+    """
+    Update a task with the given task_id in the database.
+
+    Args:
+        task_id (int): The id of the task to be updated.
+
+    Returns:
+        A JSON response containing a success message and a success status code if the task was successfully updated.
+        A JSON response containing a failure message and a 400 status code if the task failed to update.
+
+    Raises:
+        Exception: If there was an error updating the task in the database.
+    """
     success_message = f"Successfully updated task with id {task_id} in the database."
     failure_message = f"Failed to update task with id {task_id} in the database."
     success_status = 200
-    print(
-        "User is updating task with id {task_id} in the database: "
-    )
+    print("User is updating task with id {task_id} in the database: ")
 
     try:
         task_data = request.get_json()
@@ -75,23 +86,18 @@ def update_task(task_id):
         task.name = task_data["name"]
         task.list_id = task_data["list_id"]
         task.parent_id = task_data["parent_id"]
-        # if task_data["is_completed"] is different from the value of task.is_completed in the database with id task_id
-        # then update the value of task.is_completed to task_data["is_completed"] for each of subtaks of task with id task_id and all its subtasks recursively
-        # there can be an arbitrary level of subtasks so use recursion
-        if task_data["is_completed"] != task.is_completed:
-            task.is_completed = task_data["is_completed"]
-            # update the value of is_completed for each of the subtasks of task with id task_id
-            # there can be an arbitrary level of subtasks so use recursion 
-            def update_subtasks_is_completed(task_id):
-                task = Tasks.query.get(task_id)
-                task.is_completed = task_data["is_completed"]
-                db.session.commit()
-                subtasks = Tasks.query.filter_by(parent_id=task_id).all()
-                for subtask in subtasks:
-                    update_subtasks_is_completed(subtask.id)
-            update_subtasks_is_completed(task_id)
-        else: 
-            task.is_completed = task_data["is_completed"]
+        task.is_completed = task_data["is_completed"]
+        # if the task is completed and the task has a parent task, then go through all the parents subtasks and check if they are all completed.
+        # if they are all completed, then set the parent task to completed
+        if task.is_completed and task.parent_id is not None:
+            parent_task = Tasks.query.get(task.parent_id)
+            all_subtasks_completed = True
+            for subtask in parent_task.subtasks:
+                if not subtask.is_completed:
+                    all_subtasks_completed = False
+                    break
+            if all_subtasks_completed:
+                parent_task.is_completed = True
 
         db.session.commit()
         print("User updated task with id {task_id} in the database: ", task)
@@ -162,6 +168,15 @@ def add_subtask_to_task(task_id):
 @bp_task.route("/tasks/<task_id>/move", methods=["PATCH"])
 @login_required
 def move_task(task_id):
+    """
+    Moves a task to a different list in the database.
+
+    Args:
+        task_id (int): The ID of the task to be moved.
+
+    Returns:
+        A JSON response containing a success or failure message and a status code.
+    """
     success_message = f"Successfully moved task with id {task_id} in the database."
     failure_message = f"Failed to move task with id {task_id} in the database."
     success_status = 200
@@ -178,5 +193,3 @@ def move_task(task_id):
     except Exception as e:
         print("Error moving task with id {task_id} in the database: ", e)
         return jsonify({"message": f"{failure_message}. error is {e}"}), 400
-
-

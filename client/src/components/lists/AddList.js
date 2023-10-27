@@ -4,25 +4,25 @@ import { TextField, Button, Box } from "@mui/material";
 
 function AddList({ onUpdateLists }) {
   const [listName, setListName] = useState("");
-  const [isNameValid, setNameValid] = useState(true); // State for input validation
+  const [isNameValid, setNameValid] = useState(true);
 
   const handleListNameChange = (e) => {
-    setNameValid(true); // Reset validation when user types
+    setNameValid(true);
     setListName(e.target.value);
   };
 
   const api_provider = useApi();
 
-  async function addList() {
+  async function addList(e) {
+    e.preventDefault(); // <-- Prevent default form submission
+
     if (!listName.trim()) {
-      // Check if name is just empty or spaces
-      setNameValid(false); // Set the validation state to false
+      setNameValid(false);
       return;
     }
 
     const list = await api_provider.post("/add_list", { name: listName });
     onUpdateLists(list);
-    console.log(list);
     setListName("");
   }
 
@@ -32,26 +32,34 @@ function AddList({ onUpdateLists }) {
       flexDirection="row"
       justifyContent="center"
       alignItems="center"
-      gap={2}
-      p={2}
+      padding={2}
       bgcolor="#f4f7fa"
       boxShadow="0px 2px 6px rgba(0, 0, 0, 0.1)"
       borderRadius="5px"
       maxWidth="600px"
       margin="0 auto"
     >
-      <TextField
-        variant="outlined"
-        label="List name"
-        value={listName}
-        onChange={handleListNameChange}
-        fullWidth
-        error={!isNameValid} // Show error state when name is not valid
-        helperText={!isNameValid ? "List name cannot be empty" : ""}
-      />
-      <Button variant="contained" color="primary" onClick={addList}>
-        Add List
-      </Button>
+      <form onSubmit={addList} style={{ display: "flex", width: "100%" }}>
+        {" "}
+        {/* <-- Add form element here */}
+        <TextField
+          variant="outlined"
+          label="List name"
+          value={listName}
+          onChange={handleListNameChange}
+          fullWidth
+          error={!isNameValid}
+          helperText={!isNameValid ? "List name cannot be empty" : ""}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          style={{ marginLeft: "1rem", height: "100%" }}
+        >
+          Add List
+        </Button>
+      </form>
     </Box>
   );
 }

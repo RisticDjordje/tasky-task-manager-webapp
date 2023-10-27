@@ -1,6 +1,7 @@
 import React from "react";
 import { Alert as MUIAlert, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+
 const AlertMessage = ({ open, message, severity, onClose, style }) => {
   if (!open) return null;
 

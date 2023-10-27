@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import DraggableBoard from "./components/DraggableBoard";
 import ApiProvider from "./contexts/ApiProvider";
 import { styled } from "@mui/material/styles";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./components/Navbar"; // Assuming you have a Navbar component
-import Login from "./components/auth/Login"; // Assuming you have a Login component
-import Register from "./components/auth/Register"; // Assuming you have a Register component
-import HomePageTitle from "./components/Title"; // Assuming you have a Title component
-import NotFoundPage from "./components/NotFoundPage"; // Assuming you have a NotFoundPage component
+import Navbar from "./components/Navbar";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
+import HomePageTitle from "./components/Title";
+import NotFoundPage from "./components/NotFoundPage";
 import AuthProvider from "./contexts/AuthContext";
 
 const StyledApp = styled("div")({
