@@ -93,7 +93,7 @@
    ```sh
    git clone
    ```
-2. Create a virtual environment (Conda, Pipenv, etc.). Optional but recommended.
+2. Create a virtual environment (Conda, Pipenv, etc.). Optional but highly recommended.
 
 #### Frontend
 
