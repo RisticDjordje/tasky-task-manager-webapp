@@ -141,11 +141,6 @@ https://github.com/RisticDjordje/tasky-task-manager-kanban-board-webapp/assets/3
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- DOCUMENTATION -->
-
-## Documentation
-
-#### Client
 
 <!-- ROADMAP
 ## Roadmap
