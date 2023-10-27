@@ -1,5 +1,51 @@
-
-.DS_Store
+**.DS_Store
 *.pyc
 *.db
 *.pyc
+
+
+# dependencies
+**/node_modules
+**/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local development settings
+.env
+venv/
+.vscode/
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# Dependencies
+lib/
+bin/
+include/
+lib64/
+share/
+
+# Instance
+instance/
