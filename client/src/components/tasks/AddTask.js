@@ -55,23 +55,25 @@ function AddTaskForm({ onUpdateLists, listID }) {
           onChange={handleTaskNameChange}
           error={!isNameValid}
           helperText={!isNameValid ? "Task name cannot be empty" : ""}
-          size="medium"
+          size="small"
           sx={{
             flex: 5,
             marginRight: "2%",
             marginLeft: "5%",
-            height: 56, // Adjust this value as needed
+            height: "2.5rem",
           }}
         />
         <Button
           type="submit"
           variant="contained"
           color="primary"
-          size="medium"
+          size="small"
           sx={{
             flex: 1,
             marginRight: "5%",
-            height: 56, // Matching height with TextField
+            height: "2.5rem",
+            lineHeight: "normal", // Adjust line height
+            letterSpacing: "normal", // Adjust letter spacing
           }}
         >
           Add Task

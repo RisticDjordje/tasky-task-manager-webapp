@@ -11,9 +11,7 @@ import TextField from "@mui/material/TextField";
 import { useApi } from "../../contexts/ApiProvider";
 
 const StyledAccordion = styled(Accordion)({
-  marginBottom: "0.5rem",
   border: "1px solid #ccc",
-  borderRadius: "5px",
   backgroundColor: "#fff",
   boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
 });
@@ -22,20 +20,23 @@ const StyledAccordionSummary = styled(AccordionSummary)({
   backgroundColor: "#f4f7fa",
   borderBottom: "1px solid #ccc",
   display: "flex",
-  justifyContent: "space-between",
   alignItems: "center",
-});
-
-const StyledAccordionDetails = styled(AccordionDetails)({
-  backgroundColor: "#e0e7ec",
-  padding: "0.7rem",
+  padding: "6px 12px", // Reduced padding for a more compact look
+  height: "2.5rem", // Optional: Adjust height for better spacing
 });
 
 const TaskTitleContainer = styled("div")({
   display: "flex",
   alignItems: "center",
   flex: 1,
-  cursor: "pointer", // Added for visual cue on hover
+  cursor: "pointer",
+  fontSize: "0.8rem",
+  margin: "0 5px", // Optional: Adjust margin for better spacing
+});
+
+const StyledAccordionDetails = styled(AccordionDetails)({
+  backgroundColor: "#e0e7ec",
+  padding: "0.5rem", // Optional: Adjust padding for better spacing
 });
 
 const TaskAccordion = ({ task, onUpdateLists }) => {
@@ -68,23 +69,26 @@ const TaskAccordion = ({ task, onUpdateLists }) => {
     }
 
     try {
-      await api.patch(`/tasks/${task.id}/update`, {
-        name: newTaskName.trim(),
-        list_id: task.list_id,
-        parent_id: task.parent_id,
-        is_completed: task.is_completed,
+      // Update the task name on the server
+      await api.patch("/tasks/" + task.id + "/update", {
+        ...task,
+        name: newTaskName,
       });
-      setIsEditing(false);
+      // Update your task lists
       onUpdateLists();
+      // Now set editing to false
+      setIsEditing(false);
     } catch (error) {
-      console.error("Failed to edit task:", error);
+      console.error("Failed to update task name:", error);
+      // Optionally reset the input field to the old task name if there's an error
+      setNewTaskName(task.name);
     }
   };
-  // Automatically expand the accordion when a new subtask is added
+
   useEffect(() => {
     if (newSubtaskAdded) {
       setExpanded(true);
-      setNewSubtaskAdded(false); // Reset the flag
+      setNewSubtaskAdded(false);
     }
   }, [newSubtaskAdded]);
 
@@ -92,17 +96,17 @@ const TaskAccordion = ({ task, onUpdateLists }) => {
     setNewSubtaskAdded(true);
   };
 
+  const toggleAccordion = (e) => {
+    e.stopPropagation();
+    if (hasSubtasks) {
+      setExpanded(!expanded);
+    }
+  };
+
   return (
-    <StyledAccordion expanded={expanded}>
+    <StyledAccordion expanded={expanded && hasSubtasks}>
       <StyledAccordionSummary
-        expandIcon={
-          <ExpandMoreIcon
-            onClick={(e) => {
-              e.stopPropagation();
-              setExpanded(!expanded);
-            }}
-          />
-        }
+        expandIcon={hasSubtasks && <ExpandMoreIcon onClick={toggleAccordion} />}
         onClick={(e) => e.stopPropagation()}
         aria-controls="panel-content"
         id="panel-header"

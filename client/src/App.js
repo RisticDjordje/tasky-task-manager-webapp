@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
-import HomePageTitle from "./components/Title";
 import NotFoundPage from "./components/NotFoundPage";
 import AuthProvider from "./contexts/AuthContext";
 
@@ -53,7 +52,6 @@ const App = () => {
         <AuthProvider>
           <StyledApp>
             <Navbar />
-            <HomePageTitle />
             <Routes>
               <Route
                 path="/"

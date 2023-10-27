@@ -8,46 +8,44 @@ import TaskAccordion from "../tasks/TaskAccordion.js";
 import CompletedTasksCount from "./CompletedTasksCount";
 
 const Container = styled("div")({
-  margin: "2.5rem 1rem",
+  margin: "1.5rem 0.8rem",
   border: "2px solid #ddd",
   borderRadius: "5px",
-  width: "60vw",
-  height: "70vh",
+  width: "25vw", // smaller width
+  height: "80vh", // smaller height
   display: "flex",
   flexDirection: "column",
   backgroundColor: "#f4f7fa",
-  boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
-  minWidth: "300px",
+  minWidth: "250px", // reduced minimum width
 });
 
 const TasksContainer = styled("div")({
   flexGrow: 1,
   overflowY: "auto",
+  padding: "0.5rem", // reduced padding
 });
 
 const AddTaskContainer = styled("div")({
-  borderTop: "1px solid #ccc", // Add a line to separate the task list and the add task form
-  paddingTop: "1rem", // Add some space above the add task form
-  paddingBottom: "1rem", // Add some space below the add task form
+  borderTop: "1px solid #ccc",
+  paddingTop: "0.5rem", // reduced padding
+  paddingBottom: "0.5rem", // reduced padding
 });
 
 const Title = styled("h3")({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  padding: "0 1rem",
-  margin: "1rem 0",
+  padding: "0 0.8rem", // reduced padding
+  margin: "0.8rem 0", // reduced margin
   color: "black",
-  borderRadius: "4px",
   flexWrap: "wrap",
-  borderBottom: "1px solid #ccc", // Added border around the title
-  paddingBottom: "0.7rem", // Added some space below the title
+  borderBottom: "1px solid #ccc",
+  paddingBottom: "0.5rem", // reduced padding
+  fontSize: "0.9rem", // smaller font size
 });
 
-const ButtonContainer = styled("div")({
-  display: "flex",
-  gap: "0.5rem",
-});
+const ButtonContainer = styled("div")({});
+
 const List = ({ id, name, tasks, index, onUpdateLists }) => {
   return (
     <Draggable draggableId={id.toString()} index={index}>

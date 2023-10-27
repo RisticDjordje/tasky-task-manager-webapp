@@ -14,6 +14,7 @@ import AddIcon from "@mui/icons-material/Add";
 import MoveIcon from "@mui/icons-material/DriveFileMove";
 import { useApi } from "../../contexts/ApiProvider";
 import MoveTask from "./MoveTask";
+import { styled } from "@mui/material/styles";
 
 const TaskActions = ({ task, onUpdateLists, onSubtaskAdded }) => {
   const api = useApi();
@@ -69,17 +70,25 @@ const TaskActions = ({ task, onUpdateLists, onSubtaskAdded }) => {
     handleCloseDialog();
   };
 
+  const SmallIconButton = styled(IconButton)({
+    padding: 1, // Reduced padding for smaller button appearance
+  });
+
   return (
     <>
-      <IconButton onClick={handleOpenMoveDialog} aria-label="Move task">
-        <MoveIcon />
-      </IconButton>
-      <IconButton onClick={handleDeleteTask} aria-label="Delete task">
-        <DeleteIcon />
-      </IconButton>
-      <IconButton onClick={handleOpenDialog} aria-label="Add subtask">
+      <SmallIconButton onClick={handleOpenDialog} aria-label="Add subtask">
         <AddIcon />
-      </IconButton>
+      </SmallIconButton>
+      <SmallIconButton
+        size="small"
+        onClick={handleOpenMoveDialog}
+        aria-label="Move task"
+      >
+        <MoveIcon />
+      </SmallIconButton>
+      <SmallIconButton onClick={handleDeleteTask} aria-label="Delete task">
+        <DeleteIcon />
+      </SmallIconButton>
 
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Add Subtask</DialogTitle>

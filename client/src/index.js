@@ -11,10 +11,18 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         "@global": {
-          "html, body": {
+          html: {
+            height: "100%",
+          },
+          body: {
+            height: "100%",
+            margin: 0,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+          },
+          "#root": {
+            height: "100%",
           },
         },
       },

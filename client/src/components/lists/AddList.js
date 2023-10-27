@@ -14,7 +14,7 @@ function AddList({ onUpdateLists }) {
   const api_provider = useApi();
 
   async function addList(e) {
-    e.preventDefault(); // <-- Prevent default form submission
+    e.preventDefault();
 
     if (!listName.trim()) {
       setNameValid(false);
@@ -32,16 +32,15 @@ function AddList({ onUpdateLists }) {
       flexDirection="row"
       justifyContent="center"
       alignItems="center"
-      padding={2}
+      padding={1.5} // Reduced padding
       bgcolor="#f4f7fa"
       boxShadow="0px 2px 6px rgba(0, 0, 0, 0.1)"
       borderRadius="5px"
       maxWidth="600px"
       margin="0 auto"
+      border="2px solid #ddd"
     >
       <form onSubmit={addList} style={{ display: "flex", width: "100%" }}>
-        {" "}
-        {/* <-- Add form element here */}
         <TextField
           variant="outlined"
           label="List name"
@@ -50,13 +49,18 @@ function AddList({ onUpdateLists }) {
           fullWidth
           error={!isNameValid}
           helperText={!isNameValid ? "List name cannot be empty" : ""}
-          sx={{ height: 56 }}
+          size="small" // Using smaller size for TextField
         />
         <Button
           variant="contained"
           color="primary"
           type="submit"
-          sx={{ marginLeft: "2%", height: 56 }}
+          sx={{
+            marginLeft: "2%",
+            height: 40,
+            lineHeight: "normal", // Adjust line height
+            letterSpacing: "normal", // Adjust letter spacing
+          }}
         >
           Add List
         </Button>
