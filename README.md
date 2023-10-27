@@ -9,7 +9,8 @@
     <strong>Tasky is a task manager app that upgrades the funcationality offered by Trello. It allows users to create lists, tasks and an infinite number of subtasks. </strong>
   </p>
 
----  
+---
+
 <!-- Badges -->
 <p>
   <img alt="contributors" src="https://img.shields.io/github/contributors/RisticDjordje/kanban-board-webapp">
@@ -21,8 +22,7 @@
   <img alt="Language top" src="https://img.shields.io/github/languages/top/RisticDjordje/kanban-board-webapp">
   <img alt="Lines of code" src="https://img.shields.io/tokei/lines/RisticDjordje/kanban-board-webapp">
 </p> 
-</div> 
-
+</div>
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -39,8 +39,8 @@
 </details>
 <br>
 
-
 <!-- DEMO -->
+
 ## Demo
 
 ![](https://github.com/RisticDjordje/betting-bot-client-server/blob/master/Media/demo/demo.gif)
@@ -48,35 +48,34 @@
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 <br>
 
-
 <!-- BUILT WITH -->
+
 ## Built With
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Client
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ![React][React.js]![javascript][javascript]![MUI](https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white)
-  
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![React][React.js]![javascript][javascript]![MUI](https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white)
 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Server
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)	![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
 
-  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white) ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <!-- USAGE EXAMPLES -->
+
 ## Features
 
 - [x] Register and log-in into their accounts. Input validation is added on both client and server side.
 - [x] Add new lists which are saved in the backend. Users can add as many lists as they want.
 - [x] Users can delete, change the name of the list all of which will be saved in the backend.
 - [x] Users can reorder lists and that order will be saved.
-- [x] In each list, users can add new tasks, which are saved in the backend. Users can add as many tasks as they want. 
-- [x] Each task can have as many subtasks as the user wants. Each of these subtasks can have their own subsubtasks, and so on. This can be as deep as the user wants. 
+- [x] In each list, users can add new tasks, which are saved in the backend. Users can add as many tasks as they want.
+- [x] Each task can have as many subtasks as the user wants. Each of these subtasks can have their own subsubtasks, and so on. This can be as deep as the user wants.
 - [x] Users can hide or show any of these layers of subtasks in an intuitive way (shown by the accordion)
-- [x] Users can checkmark a task to indicate that it is completed. This will be saved in the backend. 
+- [x] Users can checkmark a task to indicate that it is completed. This will be saved in the backend.
 - [x] Implemented detailed recursive task logic that goes through the task tree to ensure completed logic is working correctly.<details><summary>Click to expand</summary>
-  If all subtasks of a task are completed, the task will be automatically checkmarked. Vice versa, if you uncheck a subtask of a task, the task will be unchecked. If the user moves an unchecked task to another list and its former parent task now has all of its subtasks completed, the parent task will be automatically checkmarked. All of this will recursively be bubbled up or down for all parent and child tasks. I have decided that if the user marks a task as completed its children won't be marked as complete. The reason for this is that if the user checkmarks the master task as completed by accident and wants to revert back the decision, I don't want to forget how the subtasks were previously checkmarked.
+      If all subtasks of a task are completed, the task will be automatically checkmarked. Vice versa, if you uncheck a subtask of a task, the task will be unchecked. If the user moves an unchecked task to another list and its former parent task now has all of its subtasks completed, the parent task will be automatically checkmarked. All of this will recursively be bubbled up or down for all parent and child tasks. I have decided that if the user marks a task as completed its children won't be marked as complete. The reason for this is that if the user checkmarks the master task as completed by accident and wants to revert back the decision, I don't want to forget how the subtasks were previously checkmarked.
 - [x] Users can change task names, delete tasks and move them to other lists. All of these changes will be saved in the backend. Moving a task or a subtask to another list will move it to the bottom of the list and will make it a main task.
 - [x] Added feature that shows how many of the tasks are completed in a list. This is shown in the list header. It will be colored green if all tasks are completed.
 - [x] Implemented comprehensive user authorization and authentication. Users can only see their own lists and tasks. They can't see other users' lists and tasks. They can not access certain pages without being logged in.
@@ -86,38 +85,60 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <!-- INSTALLATION -->
 
 ## Installation
 
-
 1. Clone the repo
    ```sh
    git clone
-    ```
+   ```
+2. Create a virtual environment (Conda, Pipenv, etc.). Optional but recommended.
+
 #### Frontend
+
+1. Open the frontend folder
+   ```sh
+   cd client
+   ```
 2. Install NPM packages
-    ```sh
-    npm install
-    ```
+   ```sh
+   npm install
+   ```
 3. Run the app
-    ```sh
-    npm start
-    ```
+   ```sh
+   npm start
+   ```
 4. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-<br><br>  
+#### Backend
+
+1. Open the backend folder
+   ```sh
+   cd server
+   ```
+2. Install the requirements
+   ```sh
+   pip install -r requirements.txt
+   ```
+3. Open 'flask_backend' folder
+   ```sh
+   cd flask_backend
+   ```
+4. Run the app
+   ```sh
+   python main.py
+   ```
+
+<br><br>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <!-- DOCUMENTATION -->
+
 ## Documentation
 
 #### Client
-
-
 
 <!-- ROADMAP
 ## Roadmap
@@ -127,7 +148,6 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
  -->
-
 
 [contributors-shield]: https://img.shields.io/github/RisticDjordje/betting-bot-client-server.svg?style=for-the-badge
 [contributors-url]: https://github.com/RisticDjordje/betting-bot-client-server/graphs/contributors
@@ -157,10 +177,9 @@
 [Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com 
+[JQuery-url]: https://jquery.com
 [Kotlin]: https://img.shields.io/badge/Kotlin-0095D5?&style=for-the-badge&logo=kotlin&logoColor=white
 [Java]: https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white
 [Node.js]: https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white
 [javascript]: https://img.shields.io/badge/JavaScript%20-%23F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black
 [express.js]: https://img.shields.io/badge/Express.js-404D59?style=for-the-badge
-
