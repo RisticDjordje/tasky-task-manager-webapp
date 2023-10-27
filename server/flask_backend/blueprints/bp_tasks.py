@@ -77,10 +77,10 @@ def update_task(task_id):
             Recursively checks if all subtasks of a parent task are completed.
             If all subtasks are completed, sets the parent task as completed.
             If the parent task has a parent, recursively checks the parent task.
-            
+
             Args:
             - task: A Tasks object representing the task to check completion for.
-            
+
             Returns:
             - None
             """
@@ -97,9 +97,7 @@ def update_task(task_id):
 
         def check_parent_not_completed(task):
             """
-            Recursively checks if the parent task of a given task is completed.
-            If the parent task is completed, it sets its 'is_completed' attribute to False.
-            If the parent task has a parent task, it recursively checks that task as well.
+            Recursively sets all parents to not completed.
             """
             parent_task = Tasks.query.get(task.parent_id)
             parent_task.is_completed = False
@@ -172,6 +170,16 @@ def add_subtask_to_task(task_id):
     )
     success_status = 200
 
+    def check_parent_not_completed(task):
+        """
+        Recursively sets all parents to not completed.
+        """
+        parent_task = Tasks.query.get(task.parent_id)
+        if parent_task.is_completed:
+            parent_task.is_completed = False
+            if parent_task.parent_id is not None:
+                check_parent_not_completed(parent_task)
+
     try:
         task_data = request.get_json()
         new_task = Tasks(
@@ -180,6 +188,15 @@ def add_subtask_to_task(task_id):
             parent_id=task_id,
             task_depth=Tasks.query.get(task_id).task_depth + 1,
         )
+
+        # if the parent task is completed, set it to not completed
+        parent_task = Tasks.query.get(task_id)
+        if parent_task.is_completed:
+            parent_task.is_completed = False
+            if parent_task.parent_id is not None:
+                print("here")
+                check_parent_not_completed(parent_task)
+
         db.session.add(new_task)
         db.session.commit()
 
@@ -216,7 +233,7 @@ def move_task(task_id):
         Recursively checks if all subtasks of a parent task are completed.
         If all subtasks are completed, the parent task is marked as completed.
         If the parent task has a parent task, the function is called again on the parent task.
-        
+
         Args:
             task (Tasks): The task to check for completion.
         """
@@ -247,7 +264,6 @@ def move_task(task_id):
             # check if the task is not completed and if its current parent task is not None and is completed
             # if so, then set the parent task to not completed
             if not task.is_completed and task.parent_id is not None:
-                print(4)
                 check_parent_completion(task)
 
             task.parent_id = None
