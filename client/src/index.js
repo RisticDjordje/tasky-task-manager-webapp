@@ -11,8 +11,6 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         "@global": {
-          "@import":
-            "url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap')",
           "html, body": {
             height: "100vh",
             display: "flex",

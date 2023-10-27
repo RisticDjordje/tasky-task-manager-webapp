@@ -87,9 +87,10 @@ def update_task(task_id):
         task.list_id = task_data["list_id"]
         task.parent_id = task_data["parent_id"]
         task.is_completed = task_data["is_completed"]
+
         # if the task is completed and the task has a parent task, then go through all the parents subtasks and check if they are all completed.
         # if they are all completed, then set the parent task to completed
-        if task.is_completed and task.parent_id is not None:
+        def check_parent_completion(task):
             parent_task = Tasks.query.get(task.parent_id)
             all_subtasks_completed = True
             for subtask in parent_task.subtasks:
@@ -98,6 +99,11 @@ def update_task(task_id):
                     break
             if all_subtasks_completed:
                 parent_task.is_completed = True
+                if parent_task.parent_id is not None:
+                    check_parent_completion(parent_task)
+
+        if task.is_completed and task.parent_id is not None:
+            check_parent_completion(task)
 
         db.session.commit()
         print("User updated task with id {task_id} in the database: ", task)
