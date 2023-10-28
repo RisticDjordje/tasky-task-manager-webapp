@@ -31,7 +31,7 @@
     <li><a href="#demo">Demo</a></li>
     <li><a href="#built-with">Built With</a></li>
     <li><a href="#features">Features</a></li>
-    <li><a href="#file-structure">Features</a></li>
+    <li><a href="#file-structure">File Structure</a></li>
     <li><a href='#installation'>Installation</a></li>
   </ol>
 </details>
