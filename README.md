@@ -85,6 +85,20 @@ https://github.com/RisticDjordje/tasky-task-manager-kanban-board-webapp/assets/3
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+<!-- FOLDER STRUCTURE -->
+
+## File Structure
+```
+to-do
+│
+├── server /          # Contains Flask backend API files
+│
+├── client /          # Contains React frontend components and assets
+│
+├── tests/             # Contains test cases and testing configurations
+```
+
 <!-- INSTALLATION -->
 
 ## Installation
