@@ -31,6 +31,7 @@
     <li><a href="#demo">Demo</a></li>
     <li><a href="#built-with">Built With</a></li>
     <li><a href="#features">Features</a></li>
+    <li><a href="#file-structure">Features</a></li>
     <li><a href='#installation'>Installation</a></li>
   </ol>
 </details>
@@ -86,18 +87,51 @@ https://github.com/RisticDjordje/tasky-task-manager-kanban-board-webapp/assets/3
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-<!-- FOLDER STRUCTURE -->
+<!-- FILE STRUCTURE -->
 
 ## File Structure
 ```
-to-do
+Tasky Task Manager Kanban Board Webapp
 │
-├── server /          # Contains Flask backend API files
+├── README.md                 # Project overview and documentation
 │
-├── client /          # Contains React frontend components and assets
+├── client/                   # Contains React frontend components and assets
+│   ├── .env                  # Environment variables for the client
+│   ├── README.md             # Documentation specific to the client side
+│   ├── package-lock.json     # Auto-generated file for npm dependencies
+│   ├── package.json          # NPM package configuration
+│   ├── public/               # Public assets like favicon and HTML template
+│   │   ├── favicon.ico
+│   │   ├── index.html
+│   │   ├── logo192.png
+│   │   ├── logo512.png
+│   │   ├── manifest.json
+│   │   └── robots.txt
+│   └── src/                  # Source files for the React application
+│       ├── ApiClient.js      # API client for interacting with the backend
+│       ├── App.js            # Main React application component
+│       ├── App.test.js       # Tests for the main application
+│       ├── components/       # Reusable React components
+│       ├── contexts/         # React contexts for state management
+│       ├── index.js          # Entry point for the React application
+│       └── logo.svg          # Logo file
 │
-├── tests/             # Contains test cases and testing configurations
+└── server/                   # Contains Flask backend API files
+    ├── flask_backend/        # Flask application and its configurations
+    │   ├── blueprints/       # Flask blueprints for modularizing the application
+    │   │   ├── bp_auth.py    # Blueprint for authentication routes
+    │   │   ├── bp_lists.py   # Blueprint for list-related routes
+    │   │   └── bp_tasks.py   # Blueprint for task-related routes
+    │   ├── main.py           # Main file to run the Flask application
+    │   └── models.py         # Database models for the application
+    └── requirements.txt      # Required Python packages for the server
+
 ```
+
+<br><br>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 <!-- INSTALLATION -->
 
