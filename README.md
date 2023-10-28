@@ -6,18 +6,16 @@
   <h1>Tasky - Task Manager Kanban Board</h1>
   
   <p>
-    <strong>Tasky is a task manager app that upgrades the funcationality offered by Trello. It allows users to create lists, tasks, keep track of what is completed but also add as many subtasks, subsubtasks, etc. as they want. </strong>
+    <strong>Tasky is a task manager app that upgrades the functionality offered by Trello. It allows users to create lists, tasks, keep track of what is completed but also add as many subtasks, subsubtasks, etc. as they want. </strong>
   </p>
 
 ---
 
 <!-- Badges -->
 <p>
-  <img alt="contributors" src="https://img.shields.io/github/contributors/RisticDjordje/kanban-board-webapp">
   <img alt="Commits" src="https://badgen.net/github/commits/RisticDjordje/kanban-board-webapp">
   <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/RisticDjordje/kanban-board-webapp">
   <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/RisticDjordje/kanban-board-webapp">  
-  <img alt="GitHub issues" src="https://img.shields.io/github/issues/RisticDjordje/kanban-board-webapp">
   <img alt="Languages count" src="https://img.shields.io/github/languages/count/RisticDjordje/kanban-board-webapp">
   <img alt="Language top" src="https://img.shields.io/github/languages/top/RisticDjordje/kanban-board-webapp">
   <img alt="Lines of code" src="https://sloc.xyz/github/RisticDjordje/tasky-task-manager-kanban-board-webapp">
@@ -67,17 +65,17 @@ https://github.com/RisticDjordje/tasky-task-manager-kanban-board-webapp/assets/3
 
 - [x] Register and log-in into their accounts. Input validation is added on both client and server side.
 - [x] Add new lists which are saved in the backend. Users can add as many lists as they want.
-- [x] Users can delete, change the name of the list all of which will be saved in the backend.
+- [x] Users can delete, and change the name of the list all of which will be saved in the backend.
 - [x] Users can reorder lists and that order will be saved.
 - [x] In each list, users can add new tasks, which are saved in the backend. Users can add as many tasks as they want.
 - [x] Each task can have as many subtasks as the user wants. Each of these subtasks can have their own subsubtasks, and so on. This can be as deep as the user wants.
 - [x] Users can hide or show any of these layers of subtasks in an intuitive way (shown by the accordion)
 - [x] Users can checkmark a task to indicate that it is completed. This will be saved in the backend.
 - [x] Implemented detailed recursive task logic that goes through the task tree to ensure completed logic is working correctly.<details><summary>Click to expand for a more detailed explanation</summary>
-      If all subtasks of a task are completed, the task will be automatically checkmarked. Vice versa, if you uncheck a subtask of a task, the task will be unchecked. If the user moves an unchecked task to another list and its former parent task now has all of its subtasks completed, the parent task will be automatically checkmarked. If a task is completed and a new subtask is added to it, the task will be marked as not completed.
+      If all subtasks of a task are completed, the task will be automatically checkmarked. Vice versa, if you uncheck a subtask of a task, the task will be unchecked. If the user moves an unchecked task to another list and its former parent task now has all of its subtasks completed, the parent task will be automatically check-marked. If a task is completed and a new subtask is added to it, the task will be marked as not completed.
       
-   All of this will recursively be bubbled up or down for all parent and child tasks. I have decided that if the user marks a task as completed its children won't be marked as complete. The reason for this is that if the user checkmarks the master task as completed by accident and wants to revert back the decision, I don't want to forget how the subtasks were previously checkmarked.
-- [x] Users can change task names, delete tasks and move them to other lists. All of these changes will be saved in the backend. Moving a task or a subtask to another list will move it to the bottom of the list and will make it a main task.
+   All of this will recursively be bubbled up or down for all parent and child tasks. I have decided that if the user marks a task as completed its children won't be marked as complete. The reason for this is that if the user checkmarks the master task as completed by accident and wants to revert back the decision, I don't want to forget how the subtasks were previously check-marked.
+- [x] Users can change task names, delete tasks, and move them to other lists. All of these changes will be saved in the backend. Moving a task or a subtask to another list will move it to the bottom of the list and will make it a main task.
 - [x] Added feature that shows how many of the tasks are completed in a list. This is shown in the list header. It will be colored green if all tasks are completed.
 - [x] Implemented comprehensive user authorization and authentication. Users can only see their own lists and tasks. They can't see other users' lists and tasks. They can not access certain pages without being logged in.
 - [x] The design is fully responsive for all devices.
