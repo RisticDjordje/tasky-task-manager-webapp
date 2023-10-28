@@ -20,7 +20,7 @@
   <img alt="GitHub issues" src="https://img.shields.io/github/issues/RisticDjordje/kanban-board-webapp">
   <img alt="Languages count" src="https://img.shields.io/github/languages/count/RisticDjordje/kanban-board-webapp">
   <img alt="Language top" src="https://img.shields.io/github/languages/top/RisticDjordje/kanban-board-webapp">
-  <img alt="Lines of code" src="https://img.shields.io/tokei/lines/RisticDjordje/kanban-board-webapp">
+  <img alt="Lines of code" src="https://sloc.xyz/github/RisticDjordje/tasky-task-manager-kanban-board-webapp">
 </p> 
 </div>
 
